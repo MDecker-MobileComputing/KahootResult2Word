@@ -1,6 +1,5 @@
 package de.mide.kahoot.result2word.model;
 
-import de.mide.kahoot.result2word.utils.KahootException;
 
 /**
  * Abstract superclass for classes representing a single question from the result file.

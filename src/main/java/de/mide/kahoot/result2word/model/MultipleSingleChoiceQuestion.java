@@ -15,20 +15,20 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 	protected int _numberOfAnswerOptions = 0;
 	
 	/** 
-	 * Counter for number of true answer options that were supplied; must not be greater than one
+	 * Counter for number of right answer options that were supplied; must not be greater than one
 	 * for questions of type {@link QuestionTypeEnum#SINGLE_CHOICE}.
 	 */
-	protected int _numberOfTrueAnswerOptions = 0;
+	protected int _numberOfRightAnswerOptions = 0;
 	
 	/** Array for holding up to four answer option texts; is initialized with four empty strings. */
 	protected String _answerOptionArray[] = new String[]{ "", "", "", ""};
 	
 	/** 
-	 * Array for holding flags saying whether an answer option was true or not, must correspond to
-	 * answer option text in {@link #_answerOptionArray}; is initialized with four times the
-	 * value {@code false}.
+	 * Array for holding flags saying whether an answer option was right (true) or wrong (false), 
+	 * must correspond to answer option text in {@link #_answerOptionArray}; default value is
+	 * wrong (false).
 	 */
-	protected boolean _answerOptionTrueArray[] = new boolean[]{ false, false, false, false};
+	protected boolean _answerOptionIsRightArray[] = new boolean[]{ false, false, false, false};
 	
 	
 	/**
@@ -57,31 +57,31 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 	 * 
 	 * @param answerText  Text of answer option that was displayed to the user.
 	 * 
-	 * @param isTrue  {@code true} iff this answer option was a correct one.
+	 * @param isRight  {@code true} iff this answer option is a correct one.
 	 * 
 	 * @throws KahootException  Will be raised if more than four answer texts are added, or 
 	 *                          if for a single-choice question more than one answer option
 	 *                          is true.
 	 */
-	public void addAnswerOption(String answerText, boolean isTrue) throws KahootException {
+	public void addAnswerOption(String answerText, boolean isRight) throws KahootException {
 		
 		if (_numberOfAnswerOptions >= 4) {
 			
 			throw new KahootException("Attempt to add more than four answer options to question.");
 		}
 
-		if (isTrue && getIsSingleChoiceQuestion() && _numberOfTrueAnswerOptions > 0) {
+		if (isRight && getIsSingleChoiceQuestion() && _numberOfRightAnswerOptions > 0) {
 			
 			throw new KahootException("Added more than one correct answer option for single-choice question.");
 		}
 		
 		
-		_answerOptionArray    [_numberOfAnswerOptions] = answerText;
-		_answerOptionTrueArray[_numberOfAnswerOptions] = isTrue;
+		_answerOptionArray       [_numberOfAnswerOptions] = answerText;
+		_answerOptionIsRightArray[_numberOfAnswerOptions] = isRight;
 		
 		
 		_numberOfAnswerOptions++;		
-		if (isTrue) { _numberOfTrueAnswerOptions++; }		 				
+		if (isRight) { _numberOfRightAnswerOptions++; }		 				
 	}
 	
 	
@@ -97,14 +97,14 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 	
 	
 	/**
-	 * Getter for number of true answer options.
+	 * Getter for number of right answer options.
 	 * 
-	 * @return  Number of answer options that is true; value will not be greater than 1
+	 * @return  Number of answer options that are right; value will not be greater than 1
 	 *          for single choice questions.
 	 */
-	public int getNumberOfTrueQuestions() {
+	public int getNumberOfRightAnswerOtpions() {
 		
-		return _numberOfTrueAnswerOptions;
+		return _numberOfRightAnswerOptions;
 	}
 	
 	
@@ -114,11 +114,11 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 	 * @param numberOfAnswerOption  1-4, must not exceed value returned by {@link #getNumberOfAnswerQuestions()};
 	 *                              will raise exception for wrong number!
 	 * 
-	 * @return  Text of answer option with number {@code noOfAnswerOption}.
+	 * @return  Object containing the answer option text and if it was a right (true) or wrong (false) answer option.
 	 * 
 	 * @throws KahootException  Attempt to obtain answer option with illegal number.
 	 */
-	public String getAnswerOptionText(int numberOfAnswerOption) throws KahootException {
+	public AnswerOption getAnswerOptionText(int numberOfAnswerOption) throws KahootException {
 		
 		if (numberOfAnswerOption < 1) {
 			
@@ -132,7 +132,11 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 		}
 		
 		int indexOfAnswerOption = numberOfAnswerOption - 1;						
-		return _answerOptionArray[indexOfAnswerOption];
+		
+		String answerOptionText     = _answerOptionArray    [indexOfAnswerOption];
+		boolean answerOptionIsRight = _answerOptionIsRightArray[indexOfAnswerOption];
+		
+		return new AnswerOption( answerOptionText, answerOptionIsRight);		
 	}
 	
 }

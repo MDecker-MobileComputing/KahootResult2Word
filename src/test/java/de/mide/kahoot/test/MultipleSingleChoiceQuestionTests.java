@@ -1,10 +1,13 @@
 package de.mide.kahoot.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import de.mide.kahoot.result2word.model.AnswerOption;
 import de.mide.kahoot.result2word.model.MultipleSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.utils.KahootException;
@@ -54,19 +57,19 @@ public class MultipleSingleChoiceQuestionTests
     	
     	cut.addAnswerOption("answer-1", true );    	
     	assertEquals(1, cut.getNumberOfAnswerQuestions()); 
-    	assertEquals(1, cut.getNumberOfTrueQuestions());
+    	assertEquals(1, cut.getNumberOfRightAnswerOtpions());
     	
     	cut.addAnswerOption("answer-2", false);
     	assertEquals(2, cut.getNumberOfAnswerQuestions());
-    	assertEquals(1, cut.getNumberOfTrueQuestions());
+    	assertEquals(1, cut.getNumberOfRightAnswerOtpions());
     	
     	cut.addAnswerOption("answer-3", true );
     	assertEquals(3, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfTrueQuestions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
     	
     	cut.addAnswerOption("answer-4", false);
     	assertEquals(4, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfTrueQuestions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
     	
     	try {
     		cut.addAnswerOption("answer-5", false);
@@ -76,7 +79,7 @@ public class MultipleSingleChoiceQuestionTests
     	catch (KahootException ex) { /* expected exception */ } 
  
     	assertEquals(4, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfTrueQuestions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
     }
 
     
@@ -118,7 +121,11 @@ public class MultipleSingleChoiceQuestionTests
     	catch (KahootException ex) { /* expected exception */ }
     	
     	cut.addAnswerOption("answer-1", true );
-    	assertEquals("answer-1", cut.getAnswerOptionText(1));
+    	
+    	AnswerOption answer = cut.getAnswerOptionText(1);
+    	
+    	assertEquals("answer-1", answer.getAnswerOptionText());
+    	assertTrue(answer.getAnswerOptionIsRight());
     	
     	
     	try {
@@ -126,7 +133,20 @@ public class MultipleSingleChoiceQuestionTests
     		
     		fail("No exception for attempt to get answer option text with number 2 (which was not set).");
     	}    		
-    	catch (KahootException ex) { /* expected exception */ }    	
+    	catch (KahootException ex) { /* expected exception */ }
+    	
+    	
+    	cut.addAnswerOption("answer-2", false );
+    	answer = cut.getAnswerOptionText(2);
+    	assertEquals("answer-2", answer.getAnswerOptionText());
+    	assertFalse(answer.getAnswerOptionIsRight());
+    	
+    	
+    	// Check that first answer option was not changed by adding second answer option    	
+    	answer = cut.getAnswerOptionText(1);
+    	
+    	assertEquals("answer-1", answer.getAnswerOptionText());
+    	assertTrue(answer.getAnswerOptionIsRight());    	
     }
     
 }
