@@ -27,9 +27,7 @@ public class MultipleSingleChoiceQuestionTests
     		
     		fail("No exception raised when trying to create MultipleSingleChoiceQuestion with illegal question type.");
     	}
-    	catch (KahootException ex) {
-    		// expected exception
-    	}
+    	catch (KahootException ex) { /* expected exception */ }
     }
     
     
@@ -75,10 +73,8 @@ public class MultipleSingleChoiceQuestionTests
 
     		fail("No exception was raised upon attempt to add more than four answer options.");
     	}
-    	catch (KahootException ex) {
-    		// expected exception
-    	}    	
-    	
+    	catch (KahootException ex) { /* expected exception */ } 
+ 
     	assertEquals(4, cut.getNumberOfAnswerQuestions());
     	assertEquals(2, cut.getNumberOfTrueQuestions());
     }
@@ -106,6 +102,31 @@ public class MultipleSingleChoiceQuestionTests
     	}     	
     	
     	assertEquals(2, cut.getNumberOfAnswerQuestions());
+    }
+    
+    
+    @Test
+    public void getAnswerOptionText() throws KahootException {
+    	
+    	MultipleSingleChoiceQuestion cut = new MultipleSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
+    	
+    	try {
+    		cut.getAnswerOptionText(0);
+    		
+    		fail("No exception for attempt to get answer option text with number 0.");
+    	}    		
+    	catch (KahootException ex) { /* expected exception */ }
+    	
+    	cut.addAnswerOption("answer-1", true );
+    	assertEquals("answer-1", cut.getAnswerOptionText(1));
+    	
+    	
+    	try {
+    		cut.getAnswerOptionText(2);
+    		
+    		fail("No exception for attempt to get answer option text with number 2 (which was not set).");
+    	}    		
+    	catch (KahootException ex) { /* expected exception */ }    	
     }
     
 }

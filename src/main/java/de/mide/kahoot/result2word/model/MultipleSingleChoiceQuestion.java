@@ -107,4 +107,32 @@ public class MultipleSingleChoiceQuestion extends AbstractQuestion {
 		return _numberOfTrueAnswerOptions;
 	}
 	
+	
+	/**
+	 * Getter for a single answer option text.
+	 * 
+	 * @param numberOfAnswerOption  1-4, must not exceed value returned by {@link #getNumberOfAnswerQuestions()};
+	 *                              will raise exception for wrong number!
+	 * 
+	 * @return  Text of answer option with number {@code noOfAnswerOption}.
+	 * 
+	 * @throws KahootException  Attempt to obtain answer option with illegal number.
+	 */
+	public String getAnswerOptionText(int numberOfAnswerOption) throws KahootException {
+		
+		if (numberOfAnswerOption < 1) {
+			
+			throw new KahootException("Attempt to obtain answer option with too low number " + numberOfAnswerOption + ".");
+		}
+		
+		
+		if (numberOfAnswerOption > getNumberOfAnswerQuestions()) {
+			
+			throw new KahootException("Attempt to obtain answer option with too high number " + numberOfAnswerOption + ".");
+		}
+		
+		int indexOfAnswerOption = numberOfAnswerOption - 1;						
+		return _answerOptionArray[indexOfAnswerOption];
+	}
+	
 }
