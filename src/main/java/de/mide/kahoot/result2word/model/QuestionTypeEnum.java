@@ -11,11 +11,11 @@ public enum QuestionTypeEnum {
 
 	/** Quiz question with up to four answer options, with exactly one correct answer. */
 	SINGLE_CHOICE,
-	
+
 	/** Quiz question with up to four answer options, with two or three correction answers. */
 	MULTIPLE_CHOICE,
-	
-	/** Question which contains statement which is either true or false. */
+
+	/** Question which contains a statement which is either right (true) or wrong (false). */
 	TRUE_OR_FALSE;
-	
+
 }
