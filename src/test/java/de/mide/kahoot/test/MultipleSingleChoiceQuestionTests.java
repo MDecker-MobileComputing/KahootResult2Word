@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import de.mide.kahoot.result2word.model.AnswerOption;
-import de.mide.kahoot.result2word.model.MultipleSingleChoiceQuestion;
+import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.utils.KahootException;
 
@@ -25,7 +25,7 @@ public class MultipleSingleChoiceQuestionTests {
     public void rejectIllegalQuestionType() {
 
     	try {
-    		new MultipleSingleChoiceQuestion(QuestionTypeEnum.TRUE_OR_FALSE, "test");
+    		new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.TRUE_OR_FALSE, "test");
 
     		fail("No exception raised when trying to create MultipleSingleChoiceQuestion with illegal question type.");
     	}
@@ -41,9 +41,9 @@ public class MultipleSingleChoiceQuestionTests {
     @Test
     public void acceptLegalQuestionType() throws KahootException {
 
-    	new MultipleSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test-1");
+    	new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test-1");
 
-    	new MultipleSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
+    	new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
     }
 
     /**
@@ -54,25 +54,25 @@ public class MultipleSingleChoiceQuestionTests {
     @Test
     public void rejectMoreThanFourAnswers() throws KahootException {
 
-    	MultipleSingleChoiceQuestion cut = new MultipleSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test");
+    	MultipleOrSingleChoiceQuestion cut = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test");
 
     	assertEquals(0, cut.getNumberOfAnswerQuestions());
 
     	cut.addAnswerOption("answer-1", true );
     	assertEquals(1, cut.getNumberOfAnswerQuestions());
-    	assertEquals(1, cut.getNumberOfRightAnswerOtpions());
+    	assertEquals(1, cut.getNumberOfRightAnswerOptions());
 
     	cut.addAnswerOption("answer-2", false);
     	assertEquals(2, cut.getNumberOfAnswerQuestions());
-    	assertEquals(1, cut.getNumberOfRightAnswerOtpions());
+    	assertEquals(1, cut.getNumberOfRightAnswerOptions());
 
     	cut.addAnswerOption("answer-3", true );
     	assertEquals(3, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOptions());
 
     	cut.addAnswerOption("answer-4", false);
     	assertEquals(4, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOptions());
 
     	try {
     		cut.addAnswerOption("answer-5", false);
@@ -82,14 +82,14 @@ public class MultipleSingleChoiceQuestionTests {
     	catch (KahootException ex) { /* expected exception */ }
 
     	assertEquals(4, cut.getNumberOfAnswerQuestions());
-    	assertEquals(2, cut.getNumberOfRightAnswerOtpions());
+    	assertEquals(2, cut.getNumberOfRightAnswerOptions());
     }
 
 
     @Test
     public void rejectMoreThanOneCorrectAnswerForSingleChoice() throws KahootException {
 
-    	MultipleSingleChoiceQuestion cut = new MultipleSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
+    	MultipleOrSingleChoiceQuestion cut = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
 
     	cut.addAnswerOption("answer-1", true );
     	assertEquals(1, cut.getNumberOfAnswerQuestions());
@@ -114,7 +114,7 @@ public class MultipleSingleChoiceQuestionTests {
     @Test
     public void getAnswerOptionText() throws KahootException {
 
-    	MultipleSingleChoiceQuestion cut = new MultipleSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
+    	MultipleOrSingleChoiceQuestion cut = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
 
     	try {
     		cut.getAnswerOptionText(0);

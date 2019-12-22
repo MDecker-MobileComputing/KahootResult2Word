@@ -47,7 +47,8 @@ public abstract class AbstractQuestion {
 	/**
 	 * Getter for question text.
 	 * 
-	 * @return  Text that was displayed to player, e.g. question or statement for true/false questions.          
+	 * @return  Text that was displayed to player, e.g. question (for single-choice and multi-choice questions) 
+	 *          or statement (for true/false questions).          
 	 */
 	public String getQuestionText() {
 		

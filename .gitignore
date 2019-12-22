@@ -9,3 +9,6 @@ target/
 
 # Folder created by Eclipse
 .settings/
+
+# Temporary files for opened spread sheets
+*.xlsx#

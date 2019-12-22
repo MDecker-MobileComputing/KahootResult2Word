@@ -1,6 +1,7 @@
 package de.mide.kahoot.result2word;
 
-import de.mide.kahoot.result2word.poi.KahootResultExcelReader;
+import de.mide.kahoot.result2word.model.QuestionList;
+import de.mide.kahoot.result2word.poi.KahootResultXlsxReader;
 import de.mide.kahoot.result2word.utils.KahootException;
 
 
@@ -16,7 +17,8 @@ public class Main {
 	/**
 	 * Entry point of the program execution.
 	 *
-	 * @param args  Command line argument with path to Excel file to be processed.
+	 * @param args  Command line argument with path to Excel file to be processed,
+	 *              for example "ExampleFiles/input_result1.xlsx".
 	 *
 	 * @throws KahootException  Something went wrong
 	 */
@@ -31,10 +33,12 @@ public class Main {
 
         String filenameInput = args[0];
 
-        System.out.println("Should now load file " + filenameInput);
-
-        KahootResultExcelReader excelReader = new KahootResultExcelReader(filenameInput);
+        
+        KahootResultXlsxReader excelReader = new KahootResultXlsxReader(filenameInput);
+        QuestionList questionList = excelReader.extractQuestionList();
+        
+        System.out.println( "\n" + questionList.toString() );
     }
-
+    
 
 }

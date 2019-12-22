@@ -38,4 +38,16 @@ public class TrueFalseQuestion extends AbstractQuestion {
 		return _statementIsTrue;
 	}
 	
+	
+	/**
+	 * Method to obtain string with short summary on question.
+	 * 
+	 * @return  Details of true/false question contained by this object, e.g. for writing to logger. 
+	 */
+	@Override
+	public String toString() {
+		
+		return String.format("True/false question, statement \"%s\", isTrue=%b.", getQuestionText(), _statementIsTrue);
+	}
+	
 }

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.mide.kahoot.result2word.model.AbstractQuestion;
-import de.mide.kahoot.result2word.model.MultipleSingleChoiceQuestion;
+import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.model.TrueFalseQuestion;
@@ -43,8 +43,8 @@ public class QuestionListTests {
 		
 		_cut = new QuestionList();
 		
-		_questionMC = new MultipleSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "MC-1");
-		_questionSC = new MultipleSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE  , "MC-2");
+		_questionMC = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "MC-1");
+		_questionSC = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE  , "MC-2");
 		_questionTF = new TrueFalseQuestion("test-3", true);
 		
 		_cut.addQuestion( _questionMC );

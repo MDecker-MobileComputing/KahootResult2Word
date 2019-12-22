@@ -128,9 +128,9 @@ public class QuestionList {
      * @return  Question object with a single-choice or multiple-choice question.
      *
      * @throws KahootException  Illegal value for argument {@code index} or question at position
-     *                          {@code index} is not a question of type  {@link QuestionTypeEnum#TRUE_OR_FALSE}.
+     *                          {@code index} is not a question of type {@link QuestionTypeEnum#TRUE_OR_FALSE}.
      */
-    public MultipleSingleChoiceQuestion getMultiSingleChoiceQuestion(int index) throws KahootException {
+    public MultipleOrSingleChoiceQuestion getMultiSingleChoiceQuestion(int index) throws KahootException {
 
     	if (index < 0 || index >= getNumberOfQuestions()) {
 
@@ -146,7 +146,19 @@ public class QuestionList {
 
     	AbstractQuestion question = _questionList.get(index);
 
-    	return (MultipleSingleChoiceQuestion) question;
+    	return (MultipleOrSingleChoiceQuestion) question;
+    }
+    
+    
+    /**
+     * Getter for string with short summary on object's state, might be written to logger/console:
+     * 
+     * @return  String mentioning the number of questions contained by this object.
+     */
+    @Override
+    public String toString() {
+    	
+    	return String.format("Question list with %d questions.", getNumberOfQuestions());
     }
 
 }
