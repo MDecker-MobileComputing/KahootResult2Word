@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import de.mide.kahoot.result2word.model.AbstractQuestion;
 import de.mide.kahoot.result2word.model.AnswerOption;
 import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
@@ -41,10 +42,20 @@ public class MultipleSingleChoiceQuestionTests {
     @Test
     public void acceptLegalQuestionType() throws KahootException {
 
-    	new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test-1");
+    	AbstractQuestion question1 = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test-1");
 
-    	new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
+    	AbstractQuestion question2 = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
+    	
+    	
+    	assertTrue ( question1.isSingleChoiceQuestion  () );
+    	assertFalse( question1.isMultipleChoiceQuestion() );
+    	assertFalse( question1.isTrueOrFalseQuestion   () );
+    	
+    	assertTrue ( question2.isMultipleChoiceQuestion() );   
+    	assertFalse( question2.isSingleChoiceQuestion  () );
+    	assertFalse( question2.isTrueOrFalseQuestion   () );
     }
+    
 
     /**
      * Trying to add a fifth answer for a multiple choice question should raise an exception.

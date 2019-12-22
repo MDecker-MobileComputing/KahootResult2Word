@@ -34,8 +34,8 @@ public class Main {
         String filenameInput = args[0];
 
         
-        KahootResultXlsxReader excelReader = new KahootResultXlsxReader(filenameInput);
-        QuestionList questionList = excelReader.extractQuestionList();
+        KahootResultXlsxReader xlsxReader   = new KahootResultXlsxReader(filenameInput);
+        QuestionList           questionList = xlsxReader.extractQuestionList();
         
         System.out.println( "\n" + questionList.toString() );
     }

@@ -66,7 +66,7 @@ public class QuestionList {
     /**
      * Getter for type of question at particular index position.
      *
-     * @param index  0-based index of question int this list, must not be equals or greater
+     * @param index  0-based index of question in this list, must not be equals or greater
      *               than value returned by method {@link #getNumberOfQuestions()}.
      *
      * @return  Enum element describing type of question, e.g. {@link QuestionTypeEnum#SINGLE_CHOICE}

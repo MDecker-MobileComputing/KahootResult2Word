@@ -76,7 +76,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 			throw new KahootException("Attempt to add more than four answer options to question.");
 		}
 
-		if (isRight && getIsSingleChoiceQuestion() && _numberOfRightAnswerOptions > 0) {
+		if (isRight && isSingleChoiceQuestion() && _numberOfRightAnswerOptions > 0) {
 			
 			throw new KahootException("Added more than one correct answer option for single-choice question.");
 		}
@@ -207,27 +207,37 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	
 	/**
 	 * Method to obtain string with short summary on question.
+	 * <br><br>
 	 * 
-	 * @return String with type of question and question text.
+	 * Example 1: 
+	 * <code>Single Choice question with question text "Which is NOT a country in Europe?"; Right answer: "Brasil"; Wrong answers: "Spain", "France", "Switzerland".</code>
+	 * <br><br>
+	 * 
+	 * Example 2:
+	 * <code>Multiple Choice question with question text "Which are major cities in the UK?"; Right answers: "Manchester", "Brighton"; Wrong answers: "Berlin", "Paris".</code>
+	 * 
+	 * @return String with type of question and question text. 
 	 */
 	@Override
 	public String toString() {
 		
-		String questionType = "";
-		if (getQuestionType() == QuestionTypeEnum.SINGLE_CHOICE) {
-			
-			questionType = "Single Choice";
-			
-		} else {
-			
-			questionType = "Multiple Choice";
-		}
+		String questionType = isSingleChoiceQuestion() ? "Single Choice" : "Multiple Choice";
 		
-		String rightOptionsString = stringArray2String( getTrueAnswerOptions()  );
-		String wrongOptionsString = stringArray2String( getWrongAnswerOptions() );
 		
-		return String.format("%s question with question text \"{}\"; Right answers: %s; Wrong answers: %s", 
-				             questionType, getQuestionText(), rightOptionsString, wrongOptionsString);
+		String[] trueAnswerOptions  = getTrueAnswerOptions();
+		String[] falseAnswerOptions = getWrongAnswerOptions();
+		
+		String rightOptionsString = stringArray2String( trueAnswerOptions );
+		String wrongOptionsString = stringArray2String( falseAnswerOptions );
+		
+		String answer1SingularOrPlural = trueAnswerOptions.length  == 1 ? "answer" : "answers";
+		String answer2SingularOrPlural = falseAnswerOptions.length == 1 ? "answer" : "answers";
+		
+		return String.format( "%s question with question text \"%s\"; Right %s: %s; Wrong %s: %s.", 
+				              questionType, getQuestionText(), 
+				              answer1SingularOrPlural, rightOptionsString, 
+				              answer2SingularOrPlural, wrongOptionsString
+				            );
 	}
 	
 }

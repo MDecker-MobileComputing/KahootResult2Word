@@ -2,8 +2,10 @@ package de.mide.kahoot.test;
 
 import org.junit.Test;
 
+import de.mide.kahoot.result2word.utils.KahootException;
 import de.mide.kahoot.result2word.utils.StringUtils;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -40,6 +42,19 @@ public class StringUtilsTest {
 		String resultString = StringUtils.stringArray2String(inputStringArrayEmpty);
 		
 		assertTrue(resultString.length() == 0);				
+	}
+	
+	
+	@Test
+	public void illegalSymbol() {
+		
+		try {
+						
+			StringUtils.isSymbolForCorrectAnwerOption('a');
+			
+			fail("No exception raised for unknown symbol.");
+		}
+		catch (KahootException ex) { /* expected exception */ }
 	}
 	
 }

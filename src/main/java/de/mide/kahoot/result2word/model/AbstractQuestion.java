@@ -70,11 +70,33 @@ public abstract class AbstractQuestion {
 	/**
 	 * Method to query if this question is of type {@link QuestionTypeEnum#SINGLE_CHOICE}.
 	 * 
-	 * @return {@code true} iff this question is of type {@link QuestionTypeEnum#SINGLE_CHOICE}
+	 * @return {@code true} iff this question is a single-choice question.
 	 */
-	public boolean getIsSingleChoiceQuestion() {
+	public boolean isSingleChoiceQuestion() {
 		
 		return _questionType == QuestionTypeEnum.SINGLE_CHOICE;
 	}
+	
+	
+	/**
+	 * Method to query if this question is of type {@link QuestionTypeEnum#MULTIPLE_CHOICE}.
+	 * 
+	 * @return {@code true} iff this question is a multiple-choice question.
+	 */	
+	public boolean isMultipleChoiceQuestion() {
 		
+		return _questionType == QuestionTypeEnum.MULTIPLE_CHOICE;
+	}
+
+	
+	/**
+	 * Method to query if this question is of type {@link QuestionTypeEnum#TRUE_OR_FALSE}.
+	 * 
+	 * @return {@code true} iff this question is a true/false question.
+	 */	
+	public boolean isTrueOrFalseQuestion() {
+		
+		return _questionType == QuestionTypeEnum.TRUE_OR_FALSE;
+	}
+
 }
