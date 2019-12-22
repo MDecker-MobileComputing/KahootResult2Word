@@ -1,5 +1,6 @@
 package de.mide.kahoot.result2word.poi;
 
+import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.utils.KahootException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +45,18 @@ public class KahootResultExcelReader {
 
 			throw new KahootException("Error when trying to read input file \"" + pathToExcelFile + "\".", ex);
 		}
+	}
+	
+	
+	/**
+	 * Perform the actual extraction of the questions from the XLSX file.
+	 * 
+	 * @return  Object with list of all questions in XSLX file.
+	 */
+	public QuestionList extractQuestionList() {
+		
+		
+		return null;
 	}
 
 }

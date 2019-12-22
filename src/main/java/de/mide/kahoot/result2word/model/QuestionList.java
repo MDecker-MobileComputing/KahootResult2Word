@@ -130,7 +130,7 @@ public class QuestionList {
      * @throws KahootException  Illegal value for argument {@code index} or question at position
      *                          {@code index} is not a question of type  {@link QuestionTypeEnum#TRUE_OR_FALSE}.
      */
-    public MultipleSingleChoiceQuestion getSingleChoiceQuestion(int index) throws KahootException {
+    public MultipleSingleChoiceQuestion getMultiSingleChoiceQuestion(int index) throws KahootException {
 
     	if (index < 0 || index >= getNumberOfQuestions()) {
 

@@ -13,7 +13,6 @@ import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.utils.KahootException;
 
 
-
 /**
  * Tests for class {@code de.mide.kahoot.result2word.model.MultipleSingleChoiceQuestion}.
  * <br><br>
@@ -47,7 +46,11 @@ public class MultipleSingleChoiceQuestionTests {
     	new MultipleSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
     }
 
-
+    /**
+     * Trying to add a fifth answer for a multiple choice question should raise an exception.
+     *
+     * @throws KahootException  When exception is not raised then test is green, otherwise it is red.
+     */
     @Test
     public void rejectMoreThanFourAnswers() throws KahootException {
 
