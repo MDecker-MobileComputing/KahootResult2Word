@@ -23,14 +23,14 @@ import static org.junit.Assert.assertTrue;
 public class KahootResultXlsxReaderTest {
 
 	/**
-	 * Process example file {@code ExampleFiles/input_result1.xlsx}.
+	 * Process example file {@code ExampleFiles/input_result_1.xlsx}.
 	 * 
 	 * @throws KahootException  Test failed
 	 */
 	@Test
 	public void inputFile1() throws KahootException {
 		
-		KahootResultXlsxReader cut = new KahootResultXlsxReader("ExampleFiles/input_result1.xlsx");
+		KahootResultXlsxReader cut = new KahootResultXlsxReader("ExampleFiles/input_result_1.xlsx");
 
 		// Call method under test
 		QuestionList resultList = cut.extractQuestionList();
