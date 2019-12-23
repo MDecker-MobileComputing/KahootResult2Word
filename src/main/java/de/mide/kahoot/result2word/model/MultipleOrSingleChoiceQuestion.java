@@ -32,9 +32,9 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	/** 
 	 * Array for holding flags saying whether an answer option was right (true) or wrong (false), 
 	 * must correspond to answer option text in {@link #_answerOptionArray}; default value is
-	 * wrong (false).
+	 * {@link AnswerStatusEnum#UNKNOWN}. 
 	 */
-	protected boolean _answerOptionIsRightArray[] = new boolean[]{ false, false, false, false};
+	protected AnswerStatusEnum[] _answerOptionIsRightArray = { AnswerStatusEnum.UNKNOWN, AnswerStatusEnum.UNKNOWN, AnswerStatusEnum.UNKNOWN, AnswerStatusEnum.UNKNOWN };
 	
 	
 	/**
@@ -83,7 +83,16 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		
 		
 		_answerOptionArray       [_numberOfAnswerOptions] = answerText;
-		_answerOptionIsRightArray[_numberOfAnswerOptions] = isRight;
+		
+		if (isRight) {
+			
+			_answerOptionIsRightArray[_numberOfAnswerOptions] = AnswerStatusEnum.RIGHT;
+			
+		} else {
+			
+			_answerOptionIsRightArray[_numberOfAnswerOptions] = AnswerStatusEnum.WRONG;
+		}
+		
 		
 		
 		_numberOfAnswerOptions++;		
@@ -151,7 +160,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		int indexOfAnswerOption = numberOfAnswerOption - 1;						
 		
 		String  answerOptionText    = _answerOptionArray       [indexOfAnswerOption];
-		boolean answerOptionIsRight = _answerOptionIsRightArray[indexOfAnswerOption];
+		boolean answerOptionIsRight = _answerOptionIsRightArray[indexOfAnswerOption] == AnswerStatusEnum.RIGHT ? true : false;
 		
 		return new AnswerOption( answerOptionText, answerOptionIsRight);		
 	}
@@ -170,7 +179,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		int counter = 0;
 		for (int i = 0; i < _answerOptionIsRightArray.length; i++ ) {
 			
-			if (_answerOptionIsRightArray[i] == true) {
+			if (_answerOptionIsRightArray[i] == AnswerStatusEnum.RIGHT) {
 				
 				resultString[counter] = _answerOptionArray[i];
 			    counter++;
@@ -193,7 +202,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		int counter = 0;
 		for (int i = 0; i < _answerOptionIsRightArray.length; i++ ) {
 			
-			if (_answerOptionIsRightArray[i] == false) {
+			if (_answerOptionIsRightArray[i] == AnswerStatusEnum.WRONG) {
 				
 				resultString[counter] = _answerOptionArray[i];
 			    counter++;
@@ -202,7 +211,6 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		
 		return resultString;
 	}	
-
 	
 	
 	/**
@@ -222,8 +230,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	public String toString() {
 		
 		String questionType = isSingleChoiceQuestion() ? "Single Choice" : "Multiple Choice";
-		
-		
+				
 		String[] trueAnswerOptions  = getTrueAnswerOptions();
 		String[] falseAnswerOptions = getWrongAnswerOptions();
 		

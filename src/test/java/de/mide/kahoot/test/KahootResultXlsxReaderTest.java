@@ -70,6 +70,55 @@ public class KahootResultXlsxReaderTest {
 	
 	
 	/**
+	 * Process example file {@code ExampleFiles/input_result_2.xlsx}. This result file contains
+	 * three multiple/single-choice questions (but no true/false question), and each of them
+	 * has less than four answer options.
+	 * 
+	 * @throws KahootException  Test failed
+	 */
+	@Test
+	public void inputFile2() throws KahootException {
+		
+		KahootResultXlsxReader cut = new KahootResultXlsxReader("ExampleFiles/input_result_2.xlsx");
+	
+		// Call method under test
+		QuestionList resultList = cut.extractQuestionList();
+		
+		assertEquals( 3, resultList.getNumberOfQuestions());
+		
+		
+		// Assert first question 
+		assertEquals(QuestionTypeEnum.SINGLE_CHOICE, resultList.getTypeOfQuestion(0));
+		
+		MultipleOrSingleChoiceQuestion question1 = resultList.getMultiSingleChoiceQuestion(0);
+		
+		assertEquals( 2, question1.getNumberOfAnswerQuestions   () );
+		assertEquals( 1, question1.getNumberOfRightAnswerOptions() );
+		assertEquals( 1, question1.getNumberOfWrongAnswerOptions() );		
+		
+		
+		// Assert second question 
+		assertEquals(QuestionTypeEnum.MULTIPLE_CHOICE, resultList.getTypeOfQuestion(1));
+		
+		MultipleOrSingleChoiceQuestion question2 = resultList.getMultiSingleChoiceQuestion(1);
+		
+		assertEquals( 3, question2.getNumberOfAnswerQuestions   () );
+		assertEquals( 2, question2.getNumberOfRightAnswerOptions() );
+		assertEquals( 1, question2.getNumberOfWrongAnswerOptions() );			
+
+		
+		// Assert third question 
+		assertEquals(QuestionTypeEnum.SINGLE_CHOICE, resultList.getTypeOfQuestion(2));
+		
+		MultipleOrSingleChoiceQuestion question3 = resultList.getMultiSingleChoiceQuestion(2);
+		
+		assertEquals( 3, question3.getNumberOfAnswerQuestions   () );
+		assertEquals( 1, question3.getNumberOfRightAnswerOptions() );
+		assertEquals( 2, question3.getNumberOfWrongAnswerOptions() );					
+	}
+	
+	
+	/**
 	 * Test behaviour when Xlsx file to be loaded does not exist. 
 	 */
 	@Test

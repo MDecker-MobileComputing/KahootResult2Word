@@ -22,6 +22,10 @@ import de.mide.kahoot.result2word.utils.KahootException;
  */
 public class MultipleSingleChoiceQuestionTests {
 
+	/** 
+	 * Attempt to instantiate class {@code MultipleOrSingleChoiceQuestion} with {@code QuestionTypeEnum.TRUE_OR_FALSE}
+	 * should raise exception. 
+	 */
     @Test
     public void rejectIllegalQuestionType() {
 
@@ -42,8 +46,7 @@ public class MultipleSingleChoiceQuestionTests {
     @Test
     public void acceptLegalQuestionType() throws KahootException {
 
-    	AbstractQuestion question1 = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test-1");
-
+    	AbstractQuestion question1 = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE  , "test-1");
     	AbstractQuestion question2 = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.MULTIPLE_CHOICE, "test-2");
     	
     	
