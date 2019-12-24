@@ -26,19 +26,18 @@ public class Main {
 
         if (args.length != 1) {
 
-        	System.out.println("Program was started without valid command line arguments.");
-        	System.out.println("Exactly one argument must be supplied, namely path to Excel file.");
+        	System.out.println("\nProgram was started without valid command line arguments.");
+        	System.out.println("Exactly one argument must be supplied, namely path to Excel file.\n");
         	System.exit(1);
         }
 
         String filenameInput = args[0];
 
-        
+
         KahootResultXlsxReader xlsxReader   = new KahootResultXlsxReader(filenameInput);
         QuestionList           questionList = xlsxReader.extractQuestionList();
-        
+
         System.out.println( "\n" + questionList.toString() );
     }
-    
 
 }
