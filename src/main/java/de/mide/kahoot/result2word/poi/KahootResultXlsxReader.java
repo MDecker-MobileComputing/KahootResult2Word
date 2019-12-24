@@ -85,7 +85,7 @@ public class KahootResultXlsxReader {
 	/**
 	 * Load Xlsx file with Kahoot results.
 	 *
-	 * @param pathToExcelFile  Relative path to Excel file to be loaded.
+	 * @param pathToExcelFile  Relative path to Excel file with Kahoot results to be read.
 	 *
 	 * @throws KahootException  File was not found
 	 */

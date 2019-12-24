@@ -224,11 +224,11 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	 * <br><br>
 	 *
 	 * Example 1:
-	 * <q>Single-choice question with question text "Which is NOT a country in Europe?"; Right answer: "Brasil"; Wrong answers: "Spain", "France", "Switzerland". 100,0% of players gave the correct answer.</q>
+	 * <i>Single-choice question with question text "Which is NOT a country in Europe?"; Right answer: "Brasil"; Wrong answers: "Spain", "France", "Switzerland". 100,0% of players gave the correct answer.</i>
 	 * <br><br>
 	 *
 	 * Example 2:
-	 * <q>Multiple-choice question with question text "Which are major cities in the UK?"; Right answers: "Manchester", "Brighton"; Wrong answers: "Berlin", "Paris". 100,0% of players gave the correct answer.</q>
+	 * <i>Multiple-choice question with question text "Which are major cities in the UK?"; Right answers: "Manchester", "Brighton"; Wrong answers: "Berlin", "Paris". 100,0% of players gave the correct answer.</i>
 	 *
 	 * @return  String with type of question and question text.
 	 */

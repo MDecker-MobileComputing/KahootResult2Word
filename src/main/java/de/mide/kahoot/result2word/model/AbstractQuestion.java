@@ -87,7 +87,7 @@ public abstract class AbstractQuestion {
 	 *
 	 * @return  String with statement about percentage players which gave right
 	 *          answer for this question.
-	 *          Example: <q>80,0% of players gave the correct answer.</q>
+	 *          Example: "80,0% of players gave the correct answer".
 	 */
 	public String getPercentageAnswersRightAsString() {
 
@@ -142,7 +142,8 @@ public abstract class AbstractQuestion {
 	/**
 	 * Build string with summary on object's content.
 	 *
-	 * @return  String with type of question.
+	 * @return  String with type of question, i.e. "Multiple-choice question",
+	 *          "Single-choice question" or "true/false question".
 	 */
 	@Override
 	public String toString() {

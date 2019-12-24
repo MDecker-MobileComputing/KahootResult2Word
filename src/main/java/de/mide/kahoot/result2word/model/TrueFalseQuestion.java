@@ -45,7 +45,7 @@ public class TrueFalseQuestion extends AbstractQuestion {
 	 * <br><br>
 	 *
 	 * Example:
-	 * <q>True/false question, statement "Beijing is the capital city of PR China.", isTrue=true. 100,0% of players gave the correct answer.</q>
+	 * <i>True/false question, statement "Beijing is the capital city of PR China.", isTrue=true. 100,0% of players gave the correct answer.</i>
 	 *
 	 * @return  Details of true/false question contained by this object, e.g. for writing to logger.
 	 */

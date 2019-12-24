@@ -88,4 +88,31 @@ public class StringUtils {
 		throw new KahootException("Could not recognize symbol with unicode \"" + charAsUnicode + "\".");
 	}
 	
+	
+	/**
+	 * Replace file suffix {@code .xlsx} (Excel) with {@code .docx} (Word), needed to construct name 
+	 * of target file based on source file.
+	 * 
+	 * @param xlsxFilename  Filename (maybe with path) with suffix {@code .xlsx} (detection of suffix is not case-sensitive).
+	 * 
+	 * @return  Filename with suffix {@code .docx}
+	 * 
+	 * @throws KahootException  {@code xlsxFilename} did not contain suffix {@code .xlsx}.
+	 */
+	public static String changeFilenameExtensionXlsx2Docx(String xlsxFilename) throws KahootException {
+		
+		String xlsxFilenameNormalized = xlsxFilename.toLowerCase(); 
+		
+		if ( xlsxFilenameNormalized.endsWith(".xlsx") == false ) {
+			
+			throw new KahootException("Filename \"" + xlsxFilename + "\" did not have suffix \"xlsx\".");
+		}
+		
+		int indexOfLastPoint = xlsxFilenameNormalized.lastIndexOf('.');
+		
+		String filenameWithoutSuffix = xlsxFilename.substring(0, indexOfLastPoint);
+				
+		return filenameWithoutSuffix + ".docx";
+	}
+	
 }

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  * 
  * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
-public class KahootResultXlsxReaderTest {
+public class KahootResultXlsxReaderTests {
 
 	/**
 	 * Process example file {@code ExampleFiles/input_result_1.xlsx}.
