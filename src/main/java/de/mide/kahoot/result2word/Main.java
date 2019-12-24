@@ -75,6 +75,8 @@ public class Main {
         KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord);
         
         docxWriter.writeResultFile();
+        
+        System.out.println("Target file written: " + pathToOutputWord);
     }
 
 }
