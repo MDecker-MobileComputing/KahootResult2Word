@@ -3,6 +3,8 @@ package de.mide.kahoot.test;
 import org.junit.Test;
 
 import de.mide.kahoot.result2word.utils.StringUtils;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -40,6 +42,16 @@ public class StringUtilsTest {
 		String resultString = StringUtils.stringArray2String(inputStringArrayEmpty);
 		
 		assertTrue(resultString.length() == 0);				
+	}
+	
+	
+	@Test
+	public void charToUnicode() {
+		
+		String unicode = StringUtils.charToUnicode('a');
+		
+		assertEquals("\\u0061", unicode);
+		// see also https://unicode.org/cldr/utility/character.jsp?a=61
 	}
 	
 }
