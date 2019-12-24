@@ -42,10 +42,10 @@ public class StringUtils {
 		int maxIndexValue = stringArray.length - 1;
 		for (int i = 0; i <= maxIndexValue; i++) {
 	
-			sb.append("\"").append(stringArray[i]).append("\" ");
+			sb.append("\"").append(stringArray[i]).append("\"");
 			
 			if (i != maxIndexValue) {
-				sb.append(",");
+				sb.append(", ");
 			}
 		}
 		
@@ -68,6 +68,7 @@ public class StringUtils {
 	
 	
 	/**
+	 * Check if {@code ch} is the symbol for a correct or an incorrect answer option.
 	 * 
 	 * @param ch  Char to be recognized
 	 * 
@@ -80,11 +81,9 @@ public class StringUtils {
 		
 		String charAsUnicode = charToUnicode(ch);
 		
-		if (charAsUnicode.equalsIgnoreCase(UNICODE_FOR_RIGHT_ANSWER_OPTION)) { return true; }
+		if ( charAsUnicode.equalsIgnoreCase(UNICODE_FOR_RIGHT_ANSWER_OPTION) ) { return true; }
 		
-		if (charAsUnicode.equalsIgnoreCase(UNICODE_FOR_WRONG_ANSWER_OPTION)) { return false; }
-		
-		System.out.println("Unicode value of unrecognized char: " + charAsUnicode);
+		if ( charAsUnicode.equalsIgnoreCase(UNICODE_FOR_WRONG_ANSWER_OPTION) ) { return false; }		
 		
 		throw new KahootException("Could not recognize symbol with unicode \"" + charAsUnicode + "\".");
 	}

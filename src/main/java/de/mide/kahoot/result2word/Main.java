@@ -15,7 +15,12 @@ import de.mide.kahoot.result2word.utils.KahootException;
 public class Main {
 
 	/**
-	 * Entry point of the program execution.
+	 * Entry point of the program execution.<br><br>
+	 *
+	 * TODO Use "Apache Common cli ( https://commons.apache.org/proper/commons-cli/ ) to parse Command Line Arguments;
+	 *      Maven coordinates: https://mvnrepository.com/artifact/commons-cli/commons-cli;
+	 *      Example: https://stackoverflow.com/a/7341992
+	 *      Ideas for further command line arguments: -folder path/to/folder, -gui, -help
 	 *
 	 * @param args  Command line argument with path to Excel file to be processed,
 	 *              for example "ExampleFiles/input_result1.xlsx".
@@ -26,19 +31,18 @@ public class Main {
 
         if (args.length != 1) {
 
-        	System.out.println("Program was started without valid command line arguments.");
-        	System.out.println("Exactly one argument must be supplied, namely path to Excel file.");
+        	System.out.println("\nProgram was started without valid command line arguments.");
+        	System.out.println("Exactly one argument must be supplied, namely path to Excel file.\n");
         	System.exit(1);
         }
 
         String filenameInput = args[0];
 
-        
-        KahootResultXlsxReader excelReader = new KahootResultXlsxReader(filenameInput);
-        QuestionList questionList = excelReader.extractQuestionList();
-        
+
+        KahootResultXlsxReader xlsxReader   = new KahootResultXlsxReader(filenameInput);
+        QuestionList           questionList = xlsxReader.extractQuestionList();
+
         System.out.println( "\n" + questionList.toString() );
     }
-    
 
 }
