@@ -15,6 +15,9 @@ public class QuestionList {
 
 	/** List containing all the questions. */
 	protected ArrayList<AbstractQuestion> _questionList = null;
+	
+	/** Title of the Kahoot game (see cell A1 on all sheets except the last one). */
+	protected String _title = "";
 
 
 	/**
@@ -36,6 +39,27 @@ public class QuestionList {
 	public QuestionList() {
 
 		this(20);
+	}
+	
+	/**
+	 * Setter for the title of the whole Kahoot game.
+	 * 
+	 * @param title  Title of the game, as found in cell A1 on all sheets except the last one). 
+	 */
+	public void setTitle(String title) {
+		
+		_title = title;
+	}
+	
+	
+	/**
+	 * Getter for the title of the whole Kahoot game.
+	 * 
+	 * @return  Title of the game.
+	 */
+	public String getTitle() {
+		
+		return _title;
 	}
 
 
@@ -151,14 +175,18 @@ public class QuestionList {
     
     
     /**
-     * Getter for string with short summary on object's state, might be written to logger/console:
+     * Getter for string with short summary on object's state, might be written to logger/console.
+     * <br><br>
      * 
-     * @return  String mentioning the number of questions contained by this object.
+     * @return  String mentioning the number of questions contained by this object.<br>
+     *          Example: <i>Question list with 10 questions, titled "European Geography".</i>
      */
     @Override
     public String toString() {
     	
-    	return String.format("Question list with %d questions.", getNumberOfQuestions());
+    	return String.format( "Question list with %d questions, titled \"%s\".", 
+    			              getNumberOfQuestions(), getTitle()     			             
+    			            );
     }
 
 }

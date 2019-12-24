@@ -32,4 +32,14 @@ public class KahootResultDocxWriter {
 		}		
 	}
 
+	
+	/**
+	 * Actual creation of Word (docx) file.
+	 * 
+	 * @throws KahootException  Something went wrong
+	 */
+	public void writeResultFile() throws KahootException {
+		
+	}
+	
 }

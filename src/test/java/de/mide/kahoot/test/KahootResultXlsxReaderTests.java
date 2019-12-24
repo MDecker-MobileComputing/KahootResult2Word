@@ -66,6 +66,9 @@ public class KahootResultXlsxReaderTests {
 		assertTrue( question3.isStatementTrue() );
 		
 		assertTrue( question3.getQuestionText().indexOf("Beijing") != -1);
+		
+		
+		assertEquals("Test Questions for XLSX2Word (1)", resultList.getTitle());
 	}
 	
 	

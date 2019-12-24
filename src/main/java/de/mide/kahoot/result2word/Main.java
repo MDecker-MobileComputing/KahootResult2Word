@@ -26,8 +26,6 @@ public class Main {
 	 *
 	 * @param args  Command line argument with path to Excel file to be processed,
 	 *              for example "ExampleFiles/input_result1.xlsx".
-	 *
-	 * 
 	 */
     public static void main(String[] args)  {
 
@@ -39,8 +37,7 @@ public class Main {
         }
 
         String filenameInput = args[0];
-        
-        
+                
         try {
         	
         	xlsx2docx( filenameInput );
@@ -64,14 +61,20 @@ public class Main {
      */
     protected static void xlsx2docx(String pathToInputExcel) throws KahootException {
     
-        KahootResultXlsxReader xlsxReader   = new KahootResultXlsxReader(pathToInputExcel);
-        QuestionList           questionList = xlsxReader.extractQuestionList();
+    	QuestionList questionList = null;
+    	
+        KahootResultXlsxReader xlsxReader = new KahootResultXlsxReader(pathToInputExcel);
+        
+        // read input file (Excel file with results downloaded from Kahoot)
+        questionList = xlsxReader.extractQuestionList();
 
         System.out.println( "\n" + questionList.toString() + "\n");
         
         String pathToOutputWord = StringUtils.changeFilenameExtensionXlsx2Docx(pathToInputExcel);
         
-        KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord);    	
+        KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord);
+        
+        docxWriter.writeResultFile();
     }
 
 }
