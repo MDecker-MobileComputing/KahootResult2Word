@@ -4,20 +4,31 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionList;
+import de.mide.kahoot.result2word.model.QuestionTypeEnum;
+import de.mide.kahoot.result2word.model.TrueFalseQuestion;
 import de.mide.kahoot.result2word.utils.KahootException;
+
 
 /**
  * This class contains the logic to write a Docx file (word) with the results from a Kahoot game.
+ * <br><br>
+ * 
+ * See also <a href="https://www.tutorialspoint.com/apache_poi_word/index.htm" target="_blank">this 3rd party tutorial</a>.
  * <br><br>
  *
  * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class KahootResultDocxWriter {
+	
+	/** Font size for text in normal paragraph. */
+	protected static final int FONT_SIZE_NORMAL = 12;
 	
 	/** Object with data extracted from Kahoot Excel file which is written into a Word file. */
 	protected QuestionList _questionList = null; 
@@ -56,10 +67,11 @@ public class KahootResultDocxWriter {
 		
 		XWPFDocument wordDocument = new XWPFDocument();
 				
-		writeTitleParagraph(wordDocument);
+		writeDocumentTitle(wordDocument);
 		 
+		loopOverAllQuestions(wordDocument);
 		
-		
+				
 		try {			
 			writeFileToDisk(wordDocument);
 		}
@@ -71,18 +83,150 @@ public class KahootResultDocxWriter {
 	
 	
 	/**
+	 * Write all questions into the word file.
+	 * 
+	 * @param wordDocument  Document into which the questions are to be written.
+	 * 
+	 * @throws KahootException  Something went wrong.
+	 */
+	protected void loopOverAllQuestions(XWPFDocument wordDocument) throws KahootException {
+		
+		TrueFalseQuestion              trueFalseQuestion         = null;
+		MultipleOrSingleChoiceQuestion multiSingleChoiceQuestion = null;
+		
+		
+		int numberOfQuestions = _questionList.getNumberOfQuestions();
+		
+		for (int index = 0; index < numberOfQuestions; index++) {
+						
+			writeQuestionTitle(wordDocument, index + 1);
+			
+			QuestionTypeEnum questionType = _questionList.getTypeOfQuestion(index);
+			
+			switch(questionType) {
+			
+				case TRUE_OR_FALSE:
+					trueFalseQuestion = _questionList.getTrueOrFalseQuestion(index);
+					writeTrueFalseQuestion(wordDocument, trueFalseQuestion);
+					break;
+					
+				case MULTIPLE_CHOICE:
+				case SINGLE_CHOICE:
+					multiSingleChoiceQuestion = _questionList.getMultiSingleChoiceQuestion(index);
+					writeMultiSingleChoiceQuestion(wordDocument, multiSingleChoiceQuestion);
+					break;
+					
+				default:
+					throw new KahootException("Unexcepted type of question: " + questionType);				
+			}
+		}
+	}
+	
+	
+	/**
+	 * Write a single True/False question into the Word document.
+	 * 
+	 * @param wordDocument  Document into which the {@code TrueFalseQuestion} is to be written.
+	 * 
+	 * @param trueFalseQuestion  True/False-Question to be written into {@code wordDocument}. 
+	 */
+	protected void writeTrueFalseQuestion(XWPFDocument wordDocument, TrueFalseQuestion trueFalseQuestion) {
+				
+		XWPFParagraph paragraph1 = wordDocument.createParagraph();		
+		XWPFRun       run1       = paragraph1.createRun();
+		
+		run1.setText("Is the following statement true or false?");
+		run1.setFontSize(FONT_SIZE_NORMAL);
+		run1.addBreak();
+		
+		XWPFParagraph paragraph2 = wordDocument.createParagraph();		
+		XWPFRun       run2       = paragraph2.createRun();
+		
+		run2.setText("   \"" + trueFalseQuestion.getQuestionText() + "\"");
+		run2.setItalic(true);
+		run2.setFontSize(FONT_SIZE_NORMAL);
+		run2.addBreak();
+		
+		XWPFParagraph paragraph3 = wordDocument.createParagraph();		
+		XWPFRun       run3a       = paragraph3.createRun();
+		XWPFRun       run3b       = paragraph3.createRun();
+		XWPFRun       run3c       = paragraph3.createRun();
+		
+		run3a.setText("The statement is ");
+		run3a.setFontSize(FONT_SIZE_NORMAL);
+		
+		if ( trueFalseQuestion.isStatementTrue() ) {
+			
+			run3b.setText("TRUE");			
+			
+		} else {
+			
+			run3b.setText("FALSE");
+		}
+		run3b.setBold(true);
+		run3b.setItalic(true);
+		run3b.setFontSize(FONT_SIZE_NORMAL);
+			
+		run3c.setText(".");
+		run3c.addBreak();
+	}
+	
+	
+	/**
+	 * Write {@code multiSingleChoiceQuestion} into {@code wordDocument}.
+	 * 
+	 * @param wordDocument  Document into which the {@code multiSingleChoiceQuestion} is to be written.
+	 * 
+	 * @param multiSingleChoiceQuestion  Question which is to be written into {@code wordDocument}. 
+	 */
+	protected void writeMultiSingleChoiceQuestion(XWPFDocument wordDocument, MultipleOrSingleChoiceQuestion multiSingleChoiceQuestion) {
+		
+		XWPFParagraph paragraph = wordDocument.createParagraph();
+		
+		XWPFRun run = paragraph.createRun();
+		run.addBreak();
+	}
+	
+	
+	/**
+	 * Write title of {@code question} into {@code wordDocument}.
+	 * 
+	 * @param wordDocument  Document into which the title of {@code question} is to be written.
+	 * 
+	 * @param questionNumber  Number (1-based) of question to be written into {@code wordDocument}.
+	 */
+	protected void writeQuestionTitle(XWPFDocument wordDocument, int questionNumber) {
+		
+		XWPFParagraph paragraph = wordDocument.createParagraph();
+		
+		XWPFRun run = paragraph.createRun();
+		
+		run.setText("Question No " + questionNumber);
+		run.setFontSize(14);
+		run.setBold(true);
+		
+		run.addBreak();
+	}
+	
+	
+	/**
 	 * Add title to word document which contains title of the Kahoot game.
 	 * 
 	 * @param wordDocument  Word document to which title paragraph is to be added.
 	 */
-	protected void writeTitleParagraph(XWPFDocument wordDocument) {
+	protected void writeDocumentTitle(XWPFDocument wordDocument) {
 		
-		XWPFParagraph titleParagraph = wordDocument.createParagraph();
+		XWPFParagraph paragraph = wordDocument.createParagraph();
+		paragraph.setAlignment(ParagraphAlignment.CENTER);
 		
-		XWPFRun titleRun = titleParagraph.createRun();
+		XWPFRun run = paragraph.createRun();
 		
-		titleRun.setText("Kahoot Game \"" + _questionList.getTitle() + "\"" );
-		titleRun.setFontSize(18);
+		run.setText("Kahoot Game \"" + _questionList.getTitle() + "\"");
+		run.setFontSize(18);
+		run.setBold(true);
+		
+		run.addBreak();
+		run.addBreak();
 	}
 	
 	
@@ -99,6 +243,8 @@ public class KahootResultDocxWriter {
 		FileOutputStream fos        = new FileOutputStream(targetFile);
 		
 		wordDocument.write(fos);
+		
+		fos.close();
 	}
 	
 }

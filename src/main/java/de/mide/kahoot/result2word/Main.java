@@ -51,8 +51,7 @@ public class Main {
     
     
     /**
-     * Perform the actual work, i.e. read one input file {@code pathToInputExcel} and write
-     * one word file.
+     * Perform the actual work: read one input file {@code pathToInputExcel} and write one word file. 
      * 
      * @param pathToInputExcel  Relative path to Excel file with Kahoot results to be read; suffix {@code .xlsx}
      *                          is replaced with {@code .docx} to obtain name of target file.

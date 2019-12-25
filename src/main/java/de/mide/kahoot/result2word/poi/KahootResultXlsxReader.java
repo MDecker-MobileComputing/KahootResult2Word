@@ -175,7 +175,7 @@ public class KahootResultXlsxReader {
 
 		XSSFCell cell = row.getCell(COL_INDEX_TITLE);
 		
-		return cell.getStringCellValue();
+		return cell.getStringCellValue().trim();
 	}
 
 
@@ -413,7 +413,7 @@ public class KahootResultXlsxReader {
 
 		String   questionText = cell.getStringCellValue();
 
-		return questionText;
+		return questionText.trim();
 	}
 
 
@@ -449,16 +449,16 @@ public class KahootResultXlsxReader {
 
 		String[] resultArray = new String[numOfAnswerOptions];
 
-		resultArray[0] = cell1.getStringCellValue();
-		resultArray[1] = cell2.getStringCellValue();
+		resultArray[0] = cell1.getStringCellValue().trim();
+		resultArray[1] = cell2.getStringCellValue().trim();
 
 		if (numOfAnswerOptions >= 3) {
 
-			resultArray[2] = cell3.getStringCellValue();
+			resultArray[2] = cell3.getStringCellValue().trim();
 		}
 		if (numOfAnswerOptions == 4) {
 
-			resultArray[3] = cell4.getStringCellValue();
+			resultArray[3] = cell4.getStringCellValue().trim();
 		}
 
 		return resultArray;

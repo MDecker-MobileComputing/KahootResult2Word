@@ -172,6 +172,28 @@ public class QuestionList {
 
     	return (MultipleOrSingleChoiceQuestion) question;
     }
+
+    
+    /**
+     * Getter for a question object of unspecified type. 
+     * 
+     * @param index  0-based index of question int this list, must not be equals or greater
+     *               than value returned by method {@link #getNumberOfQuestions()}.
+     *               
+     * @return  Question object
+     * 
+     * @throws KahootException  Illegal value for argument {@code index}
+     */
+    public AbstractQuestion getQuestion(int index) throws KahootException {
+    
+    	if (index < 0 || index >= getNumberOfQuestions()) {
+
+    		throw new KahootException("Attempt to receive single-choice question at illegal index " + index + ".");
+    	}
+    	
+    	
+    	return _questionList.get(index);    	
+    }
     
     
     /**
