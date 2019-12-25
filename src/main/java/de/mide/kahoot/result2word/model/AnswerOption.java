@@ -1,5 +1,6 @@
 package de.mide.kahoot.result2word.model;
 
+import de.mide.kahoot.result2word.utils.TranslatedTextsProvider;
 
 /**
  * One object of this class contains a single answer option for a question of type {@code QuestionTypeEnum#SINGLE_CHOICE}
@@ -54,6 +55,14 @@ public class AnswerOption {
 	}
 	
 	
+	/** i18n text for "right", will be loaded lazily. */
+	protected static String i18nAnswerOptionRight = "";
+	
+	/** i18n text for "wrong", will be loaded lazily. */
+	protected static String i18nAnswerOptionWrong = "";
+	
+	
+	
 	/**
 	 * Getter for text saying whether the answer option of this object is right or false.
 	 *  
@@ -64,11 +73,21 @@ public class AnswerOption {
 		
 		if ( getAnswerOptionIsRight() ) {
 			
-			return "Right";
+			if (i18nAnswerOptionRight.length() == 0) {
+				
+				i18nAnswerOptionRight = TranslatedTextsProvider.getTextByKey("right");
+			}
+			
+			return i18nAnswerOptionRight;
 			
 		} else {
 			
-			return "Wrong";
+			if (i18nAnswerOptionWrong.length() == 0) {
+				
+				i18nAnswerOptionWrong = TranslatedTextsProvider.getTextByKey("wrong");
+			}
+			
+			return i18nAnswerOptionWrong;
 		}
 	}
 }

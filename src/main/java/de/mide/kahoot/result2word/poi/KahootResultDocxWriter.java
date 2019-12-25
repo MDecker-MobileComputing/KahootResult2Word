@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -23,6 +24,8 @@ import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.model.TrueFalseQuestion;
 import de.mide.kahoot.result2word.utils.KahootException;
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
+
 
 
 /**
@@ -130,6 +133,9 @@ public class KahootResultDocxWriter {
 	 */
 	protected void addFooter(XWPFDocument wordDocument) {
 		
+		String pageFooter1 = getTextByKey("pageFooter1"); // "Page"
+		String pageFooter2 = getTextByKey("pageFooter2"); // "of"
+		
 		XWPFHeaderFooterPolicy headerFooterPolicy = wordDocument.createHeaderFooterPolicy();
 		
 		XWPFFooter footer = headerFooterPolicy.createFooter(XWPFHeaderFooterPolicy.DEFAULT);
@@ -139,10 +145,10 @@ public class KahootResultDocxWriter {
 		paragraph.setAlignment(ParagraphAlignment.CENTER);		
 		
 		XWPFRun run = paragraph.createRun();  
-		run.setText("Page ");
+		run.setText(pageFooter1 + " ");
 		paragraph.getCTP().addNewFldSimple().setInstr("PAGE \\* MERGEFORMAT");
 		run = paragraph.createRun();  
-		run.setText(" of ");
+		run.setText(" " + pageFooter2 + " ");
 		paragraph.getCTP().addNewFldSimple().setInstr("NUMPAGES \\* MERGEFORMAT");
 	}
 	
@@ -200,7 +206,10 @@ public class KahootResultDocxWriter {
 		XWPFParagraph paragraph1 = wordDocument.createParagraph();		
 		XWPFRun       run1       = paragraph1.createRun();
 		
-		run1.setText("Is the following statement true or false?");
+		
+		String i18nText1 = getTextByKey("statementTrueOrFalse"); // Is the following statement right or wrong? 
+		
+		run1.setText( i18nText1 );
 		run1.setFontSize(FONT_SIZE_NORMAL);
 		run1.addBreak();
 		
@@ -217,16 +226,19 @@ public class KahootResultDocxWriter {
 		XWPFRun       run3b      = paragraph3.createRun();
 		XWPFRun       run3c      = paragraph3.createRun();
 		
-		run3a.setText("The statement is ");
+		String i18nText2 = getTextByKey("theStatementIs"); // The statement is
+		run3a.setText(i18nText2);
 		run3a.setFontSize(FONT_SIZE_NORMAL);
 		
 		if ( trueFalseQuestion.isStatementTrue() ) {
 			
-			run3b.setText("TRUE");			
+			
+			run3b.setText( " " + getTextByKey("right") );	
 			
 		} else {
 			
-			run3b.setText("FALSE");
+			run3b.setText( " " + getTextByKey("wrong") );
+			
 		}
 		run3b.setBold(true);
 		run3b.setItalic(true);
@@ -334,7 +346,10 @@ public class KahootResultDocxWriter {
 		
 		XWPFRun run = paragraph.createRun();
 		
-		run.setText("Question No " + questionNumber);
+		// questionNo = Question Number {1}
+		String i18nText = getTextByKey("questionNo");
+		i18nText = i18nText.replace("{1}", questionNumber + "");
+		run.setText(i18nText);
 		run.setFontSize(14);
 		run.setBold(true);
 		
@@ -353,11 +368,15 @@ public class KahootResultDocxWriter {
 		paragraph.setAlignment(ParagraphAlignment.CENTER);
 		
 		XWPFRun run = paragraph.createRun();
-		
-		run.setText("Kahoot Game \"" + _questionList.getTitle() + "\"");
+								
 		run.setFontSize(18);
 		run.setBold(true);
 		
+		String i18nText = getTextByKey("wordDocTitle"); // Questions and answers for Kahoot game:
+		run.setText(i18nText);
+		run.addBreak();
+				
+		run.setText( _questionList.getTitle() );						
 		run.addBreak();
 		run.addBreak();
 	}

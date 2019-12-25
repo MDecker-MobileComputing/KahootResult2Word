@@ -1,10 +1,13 @@
 package de.mide.kahoot.result2word;
 
+import java.util.Locale;
+
 import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.poi.KahootResultDocxWriter;
 import de.mide.kahoot.result2word.poi.KahootResultXlsxReader;
 import de.mide.kahoot.result2word.utils.KahootException;
 import de.mide.kahoot.result2word.utils.StringUtils;
+import de.mide.kahoot.result2word.utils.TranslatedTextsProvider;
 
 
 /**
@@ -37,6 +40,10 @@ public class Main {
         }
 
         String filenameInput = args[0];
+        
+        TranslatedTextsProvider.loadResourceBundle(Locale.ENGLISH);
+        //TranslatedTextsProvider.loadResourceBundle(Locale.FRENCH);
+        //TranslatedTextsProvider.loadResourceBundle(Locale.GERMAN);
                 
         try {
         	
