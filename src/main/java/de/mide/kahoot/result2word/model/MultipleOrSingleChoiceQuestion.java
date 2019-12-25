@@ -109,7 +109,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	/**
 	 * Getter for number of answer options which are contained by the this object.
 	 *
-	 * @return  Number of answer options (0-4) that was already added to this object.
+	 * @return  Number of answer options (0-4) that were already added to this object.
 	 */
 	public int getNumberOfAnswerQuestions() {
 
@@ -150,7 +150,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 	 *
 	 * @throws KahootException  Attempt to obtain answer option with illegal number.
 	 */
-	public AnswerOption getAnswerOptionText(int numberOfAnswerOption) throws KahootException {
+	public AnswerOption getAnswerOption(int numberOfAnswerOption) throws KahootException {
 
 		if (numberOfAnswerOption < 1) {
 
@@ -168,7 +168,7 @@ public class MultipleOrSingleChoiceQuestion extends AbstractQuestion {
 		String  answerOptionText    = _answerOptionArray       [indexOfAnswerOption];
 		boolean answerOptionIsRight = _answerOptionIsRightArray[indexOfAnswerOption] == AnswerStatusEnum.RIGHT ? true : false;
 
-		return new AnswerOption( answerOptionText, answerOptionIsRight);
+		return new AnswerOption( answerOptionText, answerOptionIsRight );
 	}
 
 

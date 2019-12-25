@@ -3,12 +3,21 @@ package de.mide.kahoot.result2word.poi;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Optional;
 
+import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFFooter;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import de.mide.kahoot.result2word.model.AnswerOption;
 import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
@@ -71,7 +80,10 @@ public class KahootResultDocxWriter {
 		 
 		loopOverAllQuestions(wordDocument);
 		
-				
+		addFooter(wordDocument);		
+		
+		setMetadata(wordDocument);
+		
 		try {			
 			writeFileToDisk(wordDocument);
 		}
@@ -79,6 +91,59 @@ public class KahootResultDocxWriter {
 			
 			throw new KahootException("I/O Error when writing docx file \"" + _pathForWordFile + "\".", ex);
 		}		
+	}
+	
+	
+	/**
+	 * Set some meta data values in the word document.
+	 * 
+	 * @param wordDocument  Document for which the meta data is to be set.
+	 */
+	protected void setMetadata(XWPFDocument wordDocument) {
+		
+		try {
+
+			CoreProperties coreProperties = wordDocument.getProperties().getCoreProperties();
+			
+			coreProperties.setCreator("Kahoot Result to Word");
+			
+			Date dateNow = new Date();
+			Optional<Date> dateOptional = Optional.of(dateNow);
+			coreProperties.setCreated( dateOptional );
+			
+			wordDocument.getProperties().commit();
+		} 
+		catch (Exception ex) {
+			
+			System.out.println("Exception during writing meta data: " + ex.getMessage());
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Add footer on each page with "Page X of Y".
+	 * 
+	 * Based on <a href="https://stackoverflow.com/a/41391801/1364368" target="_blank">this answer</a>.
+	 * 
+	 * @param wordDocument  Word document to which the footer is to be added.
+	 */
+	protected void addFooter(XWPFDocument wordDocument) {
+		
+		XWPFHeaderFooterPolicy headerFooterPolicy = wordDocument.createHeaderFooterPolicy();
+		
+		XWPFFooter footer = headerFooterPolicy.createFooter(XWPFHeaderFooterPolicy.DEFAULT);
+		
+		XWPFParagraph paragraph = footer.getParagraphArray(0);
+		if (paragraph == null) { paragraph = footer.createParagraph(); }
+		paragraph.setAlignment(ParagraphAlignment.CENTER);		
+		
+		XWPFRun run = paragraph.createRun();  
+		run.setText("Page ");
+		paragraph.getCTP().addNewFldSimple().setInstr("PAGE \\* MERGEFORMAT");
+		run = paragraph.createRun();  
+		run.setText(" of ");
+		paragraph.getCTP().addNewFldSimple().setInstr("NUMPAGES \\* MERGEFORMAT");
 	}
 	
 	
@@ -148,9 +213,9 @@ public class KahootResultDocxWriter {
 		run2.addBreak();
 		
 		XWPFParagraph paragraph3 = wordDocument.createParagraph();		
-		XWPFRun       run3a       = paragraph3.createRun();
-		XWPFRun       run3b       = paragraph3.createRun();
-		XWPFRun       run3c       = paragraph3.createRun();
+		XWPFRun       run3a      = paragraph3.createRun();
+		XWPFRun       run3b      = paragraph3.createRun();
+		XWPFRun       run3c      = paragraph3.createRun();
 		
 		run3a.setText("The statement is ");
 		run3a.setFontSize(FONT_SIZE_NORMAL);
@@ -173,17 +238,85 @@ public class KahootResultDocxWriter {
 	
 	
 	/**
-	 * Write {@code multiSingleChoiceQuestion} into {@code wordDocument}.
+	 * Write {@code multiSingleChoiceQuestion} into {@code wordDocument}.<br><br>
+	 * 
+	 * On how to create a table see 
+	 * <a href="https://www.tutorialspoint.com/apache_poi_word/apache_poi_word_tables.htm" target="_blank">this 3rd-party tutorial</a>.
 	 * 
 	 * @param wordDocument  Document into which the {@code multiSingleChoiceQuestion} is to be written.
 	 * 
 	 * @param multiSingleChoiceQuestion  Question which is to be written into {@code wordDocument}. 
+	 * 
+	 * @throws KahootException  Internal error has occured
 	 */
-	protected void writeMultiSingleChoiceQuestion(XWPFDocument wordDocument, MultipleOrSingleChoiceQuestion multiSingleChoiceQuestion) {
+	protected void writeMultiSingleChoiceQuestion(XWPFDocument wordDocument, 
+			                                      MultipleOrSingleChoiceQuestion multiSingleChoiceQuestion) throws KahootException {
 		
 		XWPFParagraph paragraph = wordDocument.createParagraph();
 		
 		XWPFRun run = paragraph.createRun();
+		
+		run.setText( multiSingleChoiceQuestion.getQuestionText() );
+		run.setFontSize(FONT_SIZE_NORMAL);
+		run.addBreak();
+		
+		
+		XWPFTable table = wordDocument.createTable();
+		
+		XWPFTableCell cell = null;
+		
+		int numberOfAnswerOptions = multiSingleChoiceQuestion.getNumberOfAnswerQuestions(); 
+				
+		AnswerOption answerOption = multiSingleChoiceQuestion.getAnswerOption(1);
+		
+		// Create 1st table row (first row needs to be created differently)
+		XWPFTableRow tableRow = table.getRow(0);
+		
+		cell = tableRow.getCell(0);
+		setTextInCell(cell, answerOption.getAnswerOptionText());
+		
+		cell = tableRow.addNewTableCell();
+		setTextInCell(cell, answerOption.getAnswerOptionIsRightAsString());
+		 
+		
+		for (int i = 2; i <= numberOfAnswerOptions; i++) {
+		
+			answerOption = multiSingleChoiceQuestion.getAnswerOption( i );
+						
+			tableRow = table.createRow();
+			
+			cell = tableRow.getCell(0);
+		    setTextInCell(cell, answerOption.getAnswerOptionText());
+		    
+		    cell = tableRow.getCell(1);
+		    setTextInCell(cell, answerOption.getAnswerOptionIsRightAsString());
+		}		
+		
+		
+		XWPFRun runAfterTable = wordDocument.createParagraph().createRun();
+		runAfterTable.setText("");
+		runAfterTable.addBreak();		
+	}
+	
+	
+	/**
+	 * Set {@code text} as paragraph in {@code cell} according to 
+	 * <a href="https://stackoverflow.com/a/29258785/1364368" target="_blank">this answer on stackoverflow.com</a><br><br>
+	 * 
+	 * Text can also be set using method {@code XWPFTableCell::setText(String text)}, but then no font size can be set.
+	 *  
+	 * @param cell  Cell into which the {@code text} is to be set as paragraph.
+	 * 
+	 * @param text Text to be set in a paragraph in {@code cell}.  
+	 */
+	protected void setTextInCell(XWPFTableCell cell, String text) {
+		
+		XWPFParagraph paragraph = cell.addParagraph();
+		XWPFRun       run       = paragraph.createRun();
+		
+		run.setFontSize(FONT_SIZE_NORMAL);
+		run.setText(text);
+		
 		run.addBreak();
 	}
 	

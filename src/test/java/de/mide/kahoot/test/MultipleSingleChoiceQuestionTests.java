@@ -131,7 +131,7 @@ public class MultipleSingleChoiceQuestionTests {
     	MultipleOrSingleChoiceQuestion cut = new MultipleOrSingleChoiceQuestion(QuestionTypeEnum.SINGLE_CHOICE, "test");
 
     	try {
-    		cut.getAnswerOptionText(0);
+    		cut.getAnswerOption(0);
 
     		fail("No exception for attempt to get answer option text with number 0.");
     	}
@@ -139,14 +139,14 @@ public class MultipleSingleChoiceQuestionTests {
 
     	cut.addAnswerOption("answer-1", true );
 
-    	AnswerOption answer = cut.getAnswerOptionText(1);
+    	AnswerOption answer = cut.getAnswerOption(1);
 
     	assertEquals("answer-1", answer.getAnswerOptionText());
     	assertTrue(answer.getAnswerOptionIsRight());
 
 
     	try {
-    		cut.getAnswerOptionText(2);
+    		cut.getAnswerOption(2);
 
     		fail("No exception for attempt to get answer option text with number 2 (which was not set).");
     	}
@@ -154,13 +154,13 @@ public class MultipleSingleChoiceQuestionTests {
 
 
     	cut.addAnswerOption("answer-2", false );
-    	answer = cut.getAnswerOptionText(2);
+    	answer = cut.getAnswerOption(2);
     	assertEquals("answer-2", answer.getAnswerOptionText());
     	assertFalse(answer.getAnswerOptionIsRight());
 
 
     	// Check that first answer option was not changed by adding second answer option
-    	answer = cut.getAnswerOptionText(1);
+    	answer = cut.getAnswerOption(1);
 
     	assertEquals("answer-1", answer.getAnswerOptionText());
     	assertTrue(answer.getAnswerOptionIsRight());

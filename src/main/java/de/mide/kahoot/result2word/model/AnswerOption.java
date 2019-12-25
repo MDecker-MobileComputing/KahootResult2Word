@@ -53,4 +53,22 @@ public class AnswerOption {
 		return _isRightOption;
 	}
 	
+	
+	/**
+	 * Getter for text saying whether the answer option of this object is right or false.
+	 *  
+	 * @return  Text to be displayed in table inj word document saying if 
+	 *          answer option is right or wrong.
+	 */
+	public String getAnswerOptionIsRightAsString() {
+		
+		if ( getAnswerOptionIsRight() ) {
+			
+			return "Right";
+			
+		} else {
+			
+			return "Wrong";
+		}
+	}
 }
