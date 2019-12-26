@@ -16,6 +16,9 @@ import de.mide.kahoot.result2word.utils.CmdLineArgsParser;
 
 /**
  * Unit tests for class {@code de.mide.kahoot.result2word.utils.CmdLineArgsParser}. 
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class CmdLineArgsParserTests {
 

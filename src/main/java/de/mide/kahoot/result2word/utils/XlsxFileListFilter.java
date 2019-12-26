@@ -7,6 +7,9 @@ import java.io.FilenameFilter;
 /** 
  * Custom filter class that accepts all files with suffix {@code .xlsx} (case insensitive).  
  * This filter is needed by method {@link DirectoryUtil#findAllXlsxFilesInDirectory(String)}.
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class XlsxFileListFilter implements FilenameFilter {
 	

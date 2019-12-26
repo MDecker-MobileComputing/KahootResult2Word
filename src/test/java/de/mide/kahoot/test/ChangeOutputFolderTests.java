@@ -8,6 +8,9 @@ import static de.mide.kahoot.result2word.utils.DirectoryUtil.changeOutputFolder;
 /**
  * Unit test methods for method {@code changeOutputFolder(String,String)} in 
  * class {@code de.mide.kahoot.result2word.utils.DirectoryUtil}.  
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class ChangeOutputFolderTests {
 

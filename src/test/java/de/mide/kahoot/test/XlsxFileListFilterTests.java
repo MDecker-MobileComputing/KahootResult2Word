@@ -10,6 +10,9 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * Unit test methods for test class {@code de.mide.kahoot.result2word.utils.XlsxFileListFilter}.
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class XlsxFileListFilterTests {
 
