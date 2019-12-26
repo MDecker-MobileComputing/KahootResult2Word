@@ -10,8 +10,10 @@ import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.printHelpOnCmdL
 import static de.mide.kahoot.result2word.utils.DirectoryUtil.findAllXlsxFilesInDirectory;
 import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.writeWarningWhenLocaleIsNotSupported;
 import static de.mide.kahoot.result2word.utils.DirectoryUtil.checkIfDirectoryExists;
+import static de.mide.kahoot.result2word.utils.DirectoryUtil.changeOutputFolder;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
@@ -22,6 +24,7 @@ import de.mide.kahoot.result2word.poi.KahootResultXlsxReader;
 import de.mide.kahoot.result2word.utils.KahootException;
 import de.mide.kahoot.result2word.utils.StringUtils;
 import de.mide.kahoot.result2word.utils.TranslatedTextsProvider;
+import de.mide.kahoot.result2word.utils.CmdLineArgsParser;
 
 
 /**
@@ -42,7 +45,11 @@ public class Main {
 	/** Result code (RC) for aborting program with {@code System::exit(int)} when target folder specified with -outfolder does not exist. */
 	protected static final int RESULT_CODE_TARGET_FOLDER_NOT_EXISTING = 3;
 
-    
+	
+	/** Output folder that can be optionally specified by user with cmdline option {@code --outfolder}. */
+	protected static Optional<String> sOutputFolderOptional = Optional.empty();
+	
+	
     /**
      * Entry point of the program execution.<br><br>
      *
@@ -50,7 +57,7 @@ public class Main {
      */
     public static void main(String[] args)  {
         
-        CommandLine cmdLine = null;
+        CommandLine cmdLine = null;        
         
         try {
             
@@ -66,6 +73,12 @@ public class Main {
         abortBasedOnCommandLineArgsIfNeeded( cmdLine ); 
         
         loadLanguage( cmdLine );
+        
+        if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)) {
+        	
+        	String outputFolder   = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
+        	sOutputFolderOptional = Optional.of(outputFolder);
+        }
 
         
         // When we come to this line, then programm was started either with cmdline option -i <inputFolder> or -f <inputFile>
@@ -172,7 +185,7 @@ public class Main {
         
         if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)) {
         	
-        	String targetFolder = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
+        	String  targetFolder       = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
         	boolean targetFolderExists = checkIfDirectoryExists(targetFolder);
         	
         	if (targetFolderExists == false) {
@@ -194,6 +207,7 @@ public class Main {
             
             String localeCode = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_L_FOR_LOCALE);
             Locale locale     = new Locale(localeCode);
+
             TranslatedTextsProvider.loadResourceBundle(locale);
             
             writeWarningWhenLocaleIsNotSupported(locale);
@@ -217,14 +231,22 @@ public class Main {
     
         QuestionList questionList = null;
         
+        
         KahootResultXlsxReader xlsxReader = new KahootResultXlsxReader(pathToInputExcel);
         
         // read input file (Excel file with results downloaded from Kahoot)
         questionList = xlsxReader.extractQuestionList();
 
+        
         System.out.println( "\n" + questionList.toString() + "\n");
         
+        
         String pathToOutputWord = StringUtils.changeFilenameExtensionXlsx2Docx(pathToInputExcel);
+        
+        if (sOutputFolderOptional.isPresent()) {
+        	
+        	pathToOutputWord = changeOutputFolder(pathToOutputWord, sOutputFolderOptional.get());
+        }
         
         KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord);
         

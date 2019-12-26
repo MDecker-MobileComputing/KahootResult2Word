@@ -53,29 +53,6 @@ public class DirectoryUtil {
 	}
 	
 	
-	/** 
-	 * Inner class defining custom filter class that accepts all files with suffix  
-	 * {@code .xlsx} (case insensitive).
-	 */
-	protected static class XlsxFileListFilter implements FilenameFilter {
-		
-		/**
-		 * Check if a file is a xlsx file or not.
-		 * 
-		 * @param directory  Is not considered.
-		 * 
-		 * @param fileName  Is checked for suffix {@code .xlsx} (Excel file).
-		 * 
-		 * @return  {@code true} iff {@code fileName} ends with {@code .xlsx} (case insensitive).
-		 */
-		@Override
-		public boolean accept(File directory, String fileName) {
-			
-			return fileName.toLowerCase().endsWith(".xlsx");
-		}
-	}
-	
-	
 	/**
 	 * Check if {@code pathToDirectory} is a existing directory.
 	 * 
@@ -83,8 +60,7 @@ public class DirectoryUtil {
 	 * 
 	 * @return  {@code true} iff {@code pathToDirectory} exists and is a directory.  
 	 */
-	public static boolean checkIfDirectoryExists(String pathToDirectory) {
-		
+	public static boolean checkIfDirectoryExists(String pathToDirectory) {		
 
 		File directoryFile = new File( pathToDirectory );
 		
@@ -93,6 +69,33 @@ public class DirectoryUtil {
 		if (directoryFile.isDirectory() == false) { return false; }
 		
 		return true;
+	}
+	
+	
+	/**
+	 * Adjust {@code filename} so that the file is written (under the same name)
+	 * into folder {@code outputFolder}. This method is needed for the case that
+	 * the user specifies the optional output folder, i.e. when the docx file 
+	 * is to be written into a different folder than with the xlsx file.
+	 * 
+	 * @param filename  Filename (might be relative or absolte path) which is to be 
+	 *                  "rerouted" into folder {@code outputFolder}.
+	 *                   
+	 * @param outputFolder  Folder which into which file with name {@code filename} is
+	 *                      to be written.
+	 * 
+	 * @return  {@code filename} with {@code outputFolder} in front of it.
+	 */
+	public static String changeOutputFolder(String filename, String outputFolder) {
+		
+		File file = new File(filename);
+		
+		String pureName = file.getName();
+		
+		String prefix = outputFolder;
+		if (prefix.endsWith("/") == false) { prefix = prefix + "/"; }
+		
+		return prefix + pureName;
 	}
 	
 }

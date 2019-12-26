@@ -105,7 +105,7 @@ public class StringUtils {
 		
 		if ( xlsxFilenameNormalized.endsWith(".xlsx") == false ) {
 			
-			throw new KahootException("Filename \"" + xlsxFilename + "\" did not have suffix \"xlsx\".");
+			throw new KahootException("Filename \"" + xlsxFilename + "\" does not have suffix \"xlsx\".");
 		}
 		
 		int indexOfLastPoint = xlsxFilenameNormalized.lastIndexOf('.');
