@@ -14,10 +14,11 @@ import de.mide.kahoot.result2word.utils.TranslatedTextsProvider;
 
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.parseCommandLineArguments;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.printHelpOnCmdLineArgs;
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.writeWarningWhenLocaleIsNotSupported;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_H_FOR_HELP;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_L_FOR_LOCALE;;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_L_FOR_LOCALE;
 
 
 /**
@@ -29,71 +30,76 @@ import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_
  */
 public class Main {
 
-	/**
-	 * Entry point of the program execution.<br><br>
-	 *
-	 * @param args  Command line argument with path to Excel file to be processed,
-	 *              for example "ExampleFiles/input_result1.xlsx".
-	 */
+    
+    /**
+     * Entry point of the program execution.<br><br>
+     *
+     * @param args  Command line argument with path to Excel file to be processed,
+     *              for example "ExampleFiles/input_result1.xlsx".
+     */
     public static void main(String[] args)  {
         
         CommandLine cmdLine = null;
         try {
-        	
-        	cmdLine = parseCommandLineArguments( args );        	        	
+            
+            cmdLine = parseCommandLineArguments( args );                        
         }
         catch (ParseException ex) {
-        	
-        	printHelpOnCmdLineArgs();
-        	System.exit(1);
+            
+            printHelpOnCmdLineArgs();
+            System.exit(1);
         }
         
         
         if ( cmdLine.hasOption(CMDLINE_OPTION_LETTER_H_FOR_HELP) ) {
-        	
-        	printHelpOnCmdLineArgs();
-        	return;
+            
+            printHelpOnCmdLineArgs();
+            return;
         }
         
-        
-        
-        TranslatedTextsProvider.loadResourceBundle(Locale.ENGLISH);
-        //TranslatedTextsProvider.loadResourceBundle(Locale.FRENCH);
-        //TranslatedTextsProvider.loadResourceBundle(Locale.GERMAN);
-                
+                        
         if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_L_FOR_LOCALE)) {
-        	
-        	System.out.println("\nCommand Line Option -l for setting local not supported, ignoring it.");        	
+            
+            String localeCode = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_L_FOR_LOCALE);
+            Locale locale     = new Locale(localeCode);
+            TranslatedTextsProvider.loadResourceBundle(locale);
+            
+            writeWarningWhenLocaleIsNotSupported(locale);
+            
+        } else {
+        
+            TranslatedTextsProvider.loadResourceBundle(Locale.ENGLISH);
         }
+        
         
         if (!cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && !cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
-        	
-        	System.out.println("\nNeither Command Line Option -i nor -f was specified, aborting program.");
-        	return;
+            
+            System.out.println("\nNeither Command Line Option -i nor -f was specified, aborting program.");
+            return;
         }
         
         if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER)) {
-        	
-        	System.out.println("\nCommand Line option -i not yet supported, aborting program.");
-        	return;
+            
+            System.out.println("\nCommand Line option -i not yet supported, aborting program.");
+            return;
         }
         
         try {
-        	
-        	String inputFileName = "";
-        	
+            
+            String inputFileName = "";
+            
             if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
-            	
-            	inputFileName = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE);
-            	
-            	xlsx2docx( inputFileName );
+                
+                inputFileName = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE);
+                
+                xlsx2docx( inputFileName );
             }
-        	        	        	
+                                    
         } 
         catch (KahootException ex) {
-        	
-        	System.err.println("Error: " + ex.getMessage());
-        	ex.printStackTrace();
+            
+            System.err.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
     
@@ -108,8 +114,8 @@ public class Main {
      */
     protected static void xlsx2docx(String pathToInputExcel) throws KahootException {
     
-    	QuestionList questionList = null;
-    	
+        QuestionList questionList = null;
+        
         KahootResultXlsxReader xlsxReader = new KahootResultXlsxReader(pathToInputExcel);
         
         // read input file (Excel file with results downloaded from Kahoot)

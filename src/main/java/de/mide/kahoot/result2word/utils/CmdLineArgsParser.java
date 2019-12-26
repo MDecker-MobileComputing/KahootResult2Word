@@ -4,12 +4,14 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 
 /**
- * Parsing of command line arguments based on <a href="https://commons.apache.org/proper/commons-cli/" target="_blank">commons cli</a>.
+ * Parsing of command line arguments based on <a href="https://commons.apache.org/proper/commons-cli/" target="_blank">Apache Commons CLI</a>.
  * <br><br>
  * 
  * See also <a href="http://blog.wenzlaff.de/?p=12952" target="_blank">this 3rd-party tutorial</a>.
@@ -40,25 +42,53 @@ public class CmdLineArgsParser {
 	
 	
 	static {
-		
-		// TODO Refactor using "Option Builder" for better readability, see https://commons.apache.org/proper/commons-cli/usage.html
-		
+				
 		sOptions = new Options();
-		 
-		sOptions.addOption( CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE, "infile", true,  // true: has argument
-				            "Single Excel file to be processed, not compatible with -i." ); 
 		
-		sOptions.addOption( CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER, "infolder" , true, 
-				            "Folder from which input files (xlsx) are to be read; not compatible with -f." );
+		Option infileOption = Option.builder(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)
+					                    .required(false)
+					                    .longOpt("infile")
+					                    .desc("Single Excel file to be processed, not compatible with -i.")
+					                    .hasArg(true)
+					                    .argName("Path to Input File")
+					                    .build();
+			
+		Option infolderOption = Option.builder(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER)
+						                .required(false)
+						                .longOpt("infolder")
+						                .desc("Folder from which input files (xlsx) are to be read; not compatible with -f.")
+						                .hasArg(true)
+						                .argName("Path to input folder")
+						                .build();
 		
-		sOptions.addOption( CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER, "outfolder", true, 
-				            "Folder into which output files (docx) are to be written." );
-		
-		sOptions.addOption( CMDLINE_OPTION_LETTER_L_FOR_LOCALE, "locale", true, 
-				            "Set locale to be used for output files, e.g. \"en\" for English or \"de\" for German." );
-		
-		sOptions.addOption( CMDLINE_OPTION_LETTER_H_FOR_HELP, "help", false, 
-				            "Show help on command line arguments." );
+		Option outfolderOption = Option.builder(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)
+						                .required(false)
+						                .longOpt("outfolder")
+						                .desc("Folder into which output files (docx) are to be written.")
+						                .hasArg(true)
+						                .argName("Path to folder into which files are written")
+						                .build();				
+
+		Option localeOption = Option.builder(CMDLINE_OPTION_LETTER_L_FOR_LOCALE)
+						                .required(false)
+						                .longOpt("locale")
+						                .desc("Set language to be used for output files, e.g. \"en\" for English or \"de\" for German; default value is \"en\" for English.")
+						                .hasArg(true)
+						                .argName("code for locale, e.g. \"en\" for English.")
+						                .build();				
+
+		Option helpOption = Option.builder(CMDLINE_OPTION_LETTER_H_FOR_HELP)
+						                .required(false)
+						                .longOpt("help")
+						                .desc("Show help on command line arguments.")
+						                .hasArg(false)
+						                .build();		
+
+		sOptions.addOption( infileOption    );
+		sOptions.addOption( infolderOption  );
+		sOptions.addOption( outfolderOption );
+		sOptions.addOption( localeOption    );
+		sOptions.addOption( helpOption      );
 	}
 	
 	

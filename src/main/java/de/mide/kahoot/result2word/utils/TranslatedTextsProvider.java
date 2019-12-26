@@ -1,5 +1,7 @@
 package de.mide.kahoot.result2word.utils;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -13,6 +15,12 @@ public class TranslatedTextsProvider {
 	/** Text returned as fallback when i18n text was not found. */
 	protected static final String I18N_TEXT_NOT_FOUND = "<i18n text for key \"%s\" not found>";
 	
+	/** 
+	 * Base name for language bundle (without suffix) "i18n". Code for language and suffix {@code .properties}
+	 * will be appended to get full file name, e.g. {@code i18n_en.properties} or {@code i18n_de.properties}.
+	 */    
+	protected static final String BASE_NAME_LANGUAGE_BUNDLE = "i18n";
+	
 	/** Instance of {@code ResourceBundle} contains i18n texts (key value pairs) for a particular language (locale). */
 	protected static ResourceBundle sResourceBundle = null;
 	
@@ -25,7 +33,7 @@ public class TranslatedTextsProvider {
 	 */
 	public static void loadResourceBundle(Locale locale) {
 		
-		sResourceBundle = ResourceBundle.getBundle("i18n", locale);
+		sResourceBundle = ResourceBundle.getBundle(BASE_NAME_LANGUAGE_BUNDLE, locale);
 	}
 	
 	
@@ -44,6 +52,7 @@ public class TranslatedTextsProvider {
 	public static String getTextByKey(String key) {
 		 		
 		try {
+			
 			String result = sResourceBundle.getString(key);
 			
 			if (result == null || result.trim().length() == 0) {
@@ -61,6 +70,29 @@ public class TranslatedTextsProvider {
 			
 			return String.format(I18N_TEXT_NOT_FOUND, key);
 		}		
+	}
+	
+	
+	/**
+	 * Writes warning to STDOUT when {@code locale} is not supported by this program, i.e. not specified
+	 * text bundle for this language was added to folder {@code src/main/resources/}.
+	 * <br><br>
+	 * 
+	 * Checking for existing of resource file according to 
+	 * <a href="https://stackoverflow.com/a/9380730" target="_blank">this solution on stackoverflow.com</a>.
+	 * 
+	 * @param locale  Locale object to be checked.
+	 */
+	public static void writeWarningWhenLocaleIsNotSupported(Locale locale) {
+		
+		String fileName = BASE_NAME_LANGUAGE_BUNDLE + "_" + locale.getLanguage() + ".properties"; // e.g. "i18n_en.properties". 
+				
+		URL url = TranslatedTextsProvider.class.getResource( "/" + fileName );
+				
+		if (url == null) {
+		
+			System.out.println("WARNING: No language bundle \"" + fileName + "\", will use fallback.");
+		}					
 	}
 	
 }
