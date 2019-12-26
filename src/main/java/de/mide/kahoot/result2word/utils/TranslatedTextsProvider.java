@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
 /**
  * This class can provide translated texts from the properties files in folder {@code src/main/resources}.
  * These texts are to be used in the generated docx file. 
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class TranslatedTextsProvider {
 

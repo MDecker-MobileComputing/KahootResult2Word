@@ -12,6 +12,9 @@ import de.mide.kahoot.result2word.utils.KahootException;
 
 /**
  * Unit test methods for class {@code de.mide.kahoot.result2word.poi.KahootResultDocxWriter}.
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public class KahootResultDocxWriterTests {
 

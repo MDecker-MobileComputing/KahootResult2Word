@@ -5,6 +5,9 @@ package de.mide.kahoot.result2word.model;
  * Value {@link #UNKNOWN} is needed because an object of class 
  * {@link MultipleOrSingleChoiceQuestion} might contain less than four 
  * answer options.
+ * <br><br>
+ *
+ * This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3).
  */
 public enum AnswerStatusEnum {
 
