@@ -1,6 +1,5 @@
 package de.mide.kahoot.result2word.utils;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;

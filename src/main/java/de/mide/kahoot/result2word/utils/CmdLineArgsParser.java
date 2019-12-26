@@ -5,7 +5,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -24,10 +23,10 @@ public class CmdLineArgsParser {
 	/** Single letter "f" for command line argument to specify input file, e.g. <code>-f path/to/result.xlsx</code> . */
 	public static final String CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE = "f";
 	
-	/** Single letter "i" for command line argument to specify folder with xlsx files to be read, e.g. <code>-i path/to/input/folder</code> . */
+	/** Single letter "i" for command line argument to specify folder with xlsx files to be read, e.g. <code>-i path/to/input/folder/</code> . */
 	public static final String CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER = "i";
 	
-	/** Single letter "o" for command line argument to specify folder into which docx file are to be written, e.g. <code>-o path/to/output/folder</code> . */
+	/** Single letter "o" for command line argument to specify folder into which docx file are to be written, e.g. <code>-o path/to/output/folder/</code> . */
 	public static final String CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER = "o";
 	
 	/** Single letter "l" (small caps "L") for command line argument to specify the locale for the docx file to be written, e.g. <code>-l en</code>. */ 
