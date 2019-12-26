@@ -25,10 +25,16 @@ public class DirectoryUtil {
 		
 		File directoryFile = new File(pathToInputDirectory);
 		
-		if (directoryFile.exists() == false) { throw new KahootException("Folder \"" + pathToInputDirectory + "\" not found."); }
+		if (directoryFile.exists() == false) { 
+			
+			throw new KahootException("Folder \"" + pathToInputDirectory + "\" not found."); 
+		}	
+		if (directoryFile.isDirectory() == false) { 
+			
+			throw new KahootException("\"" + pathToInputDirectory + "\" is not a directory."); 
+		}
 		
-		if (directoryFile.isDirectory() == false) { throw new KahootException("\"" + pathToInputDirectory + "\" is not a directory."); }
-		
+
 		FilenameFilter xlsxFileFilter = new XlsxFileListFilter(); 
 		
 		// Method list(FileFilter) returns only file names without path
@@ -52,8 +58,8 @@ public class DirectoryUtil {
 	
 	
 	/** 
-	 * Inner class defining custom filter that accepts als files with suffix {@code .xlsx} 
-	 * (case insensitive).
+	 * Inner class defining custom filter class that accepts als files with suffix  
+	 * {@code .xlsx} (case insensitive).
 	 */
 	protected static class XlsxFileListFilter implements FilenameFilter {
 		

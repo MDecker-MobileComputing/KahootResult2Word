@@ -1,8 +1,15 @@
 package de.mide.kahoot.result2word;
 
-import java.util.Locale;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_H_FOR_HELP;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_L_FOR_LOCALE;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.parseCommandLineArguments;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.printHelpOnCmdLineArgs;
+import static de.mide.kahoot.result2word.utils.DirectoryUtil.findAllXlsxFilesInDirectory;
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.writeWarningWhenLocaleIsNotSupported;
 
-import javax.sound.midi.SysexMessage;
+import java.util.Locale;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
@@ -10,19 +17,9 @@ import org.apache.commons.cli.ParseException;
 import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.poi.KahootResultDocxWriter;
 import de.mide.kahoot.result2word.poi.KahootResultXlsxReader;
-import de.mide.kahoot.result2word.utils.CmdLineArgsParser;
 import de.mide.kahoot.result2word.utils.KahootException;
 import de.mide.kahoot.result2word.utils.StringUtils;
 import de.mide.kahoot.result2word.utils.TranslatedTextsProvider;
-
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.parseCommandLineArguments;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.printHelpOnCmdLineArgs;
-import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.writeWarningWhenLocaleIsNotSupported;
-import static de.mide.kahoot.result2word.utils.DirectoryUtil.findAllXlsxFilesInDirectory;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_H_FOR_HELP;
-import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_L_FOR_LOCALE;
 
 
 /**
@@ -36,6 +33,9 @@ public class Main {
 	
 	/** Result code (RC) for aborting program with {@code System::exit(int)} when inconsistent command line arguments are specified. */ 
 	protected static final int RESULT_CODE_ON_INVALID_ARGS = 1;
+	
+	/** Result code (RC) for aborting program with {@code System::exit(int)} when exception during reading of input file or writing of docx files has occured. */ 
+	protected static final int RESULT_CODE_ON_EXCEPTION_DURING_PROCESSING = 2;
 
     
     /**
@@ -62,6 +62,7 @@ public class Main {
         abortBasedOnCommandLineArgsIfNeeded( cmdLine ); 
         loadLanguage( cmdLine );
 
+        
         // When we come to this line, then programm was started either with cmdline option -i <inputFolder> or -f <inputFile>
         
         try {
@@ -79,6 +80,8 @@ public class Main {
             
             System.err.println( "Error: " + ex.getMessage() );
             ex.printStackTrace();
+            
+            System.exit( RESULT_CODE_ON_EXCEPTION_DURING_PROCESSING );
         }
     }
     
