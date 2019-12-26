@@ -47,39 +47,39 @@ public class CmdLineArgsParser {
 		Option infileOption = Option.builder(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)
 					                    .required(false)
 					                    .longOpt("infile")
-					                    .desc("Single Excel file to be processed, not compatible with -i.")
+					                    .desc("Single Excel file to be processed, not compatible with -i")
 					                    .hasArg(true)
-					                    .argName("Path to Input File")
+					                    .argName("file")
 					                    .build();
 			
 		Option infolderOption = Option.builder(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER)
 						                .required(false)
 						                .longOpt("infolder")
-						                .desc("Folder from which input files (xlsx) are to be read; not compatible with -f.")
+						                .desc("Folder from which input files (xlsx) are to be read; not compatible with -f")
 						                .hasArg(true)
-						                .argName("Path to input folder")
+						                .argName("folder")
 						                .build();
 		
 		Option outfolderOption = Option.builder(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)
 						                .required(false)
 						                .longOpt("outfolder")
-						                .desc("Folder into which output files (docx) are to be written.")
+						                .desc("Folder into which output files (docx) are to be written")
 						                .hasArg(true)
-						                .argName("Path to folder into which files are written")
+						                .argName("folder")
 						                .build();				
 
 		Option localeOption = Option.builder(CMDLINE_OPTION_LETTER_L_FOR_LOCALE)
 						                .required(false)
 						                .longOpt("locale")
-						                .desc("Set language to be used for output files, e.g. \"en\" for English or \"de\" for German; default value is \"en\" for English.")
+						                .desc("Set language to be used for output files, e.g. \"en\" for English or \"de\" for German; default value is \"en\" for English")
 						                .hasArg(true)
-						                .argName("code for locale, e.g. \"en\" for English.")
+						                .argName("locale")
 						                .build();				
 
 		Option helpOption = Option.builder(CMDLINE_OPTION_LETTER_H_FOR_HELP)
 						                .required(false)
 						                .longOpt("help")
-						                .desc("Show help on command line arguments.")
+						                .desc("Show this help")
 						                .hasArg(false)
 						                .build();		
 

@@ -23,17 +23,13 @@ public class DirectoryUtil {
 	 */
 	public static String[] findAllXlsxFilesInDirectory(String pathToInputDirectory) throws KahootException {
 		
-		File directoryFile = new File(pathToInputDirectory);
-		
-		if (directoryFile.exists() == false) { 
+		if (checkIfDirectoryExists(pathToInputDirectory) == false) {
 			
-			throw new KahootException("Folder \"" + pathToInputDirectory + "\" not found."); 
-		}	
-		if (directoryFile.isDirectory() == false) { 
-			
-			throw new KahootException("\"" + pathToInputDirectory + "\" is not a directory."); 
+			throw new KahootException("Folder \"" + pathToInputDirectory + "\" not found or is not a folder.");
 		}
 		
+		File directoryFile = new File( pathToInputDirectory );
+				
 
 		FilenameFilter xlsxFileFilter = new XlsxFileListFilter(); 
 		
@@ -58,7 +54,7 @@ public class DirectoryUtil {
 	
 	
 	/** 
-	 * Inner class defining custom filter class that accepts als files with suffix  
+	 * Inner class defining custom filter class that accepts all files with suffix  
 	 * {@code .xlsx} (case insensitive).
 	 */
 	protected static class XlsxFileListFilter implements FilenameFilter {
@@ -77,6 +73,26 @@ public class DirectoryUtil {
 			
 			return fileName.toLowerCase().endsWith(".xlsx");
 		}
+	}
+	
+	
+	/**
+	 * Check if {@code pathToDirectory} is a existing directory.
+	 * 
+	 * @param pathToDirectory  Path to directory to be checked.
+	 * 
+	 * @return  {@code true} iff {@code pathToDirectory} exists and is a directory.  
+	 */
+	public static boolean checkIfDirectoryExists(String pathToDirectory) {
+		
+
+		File directoryFile = new File( pathToDirectory );
+		
+		if (directoryFile.exists() == false) { return false; } 
+								
+		if (directoryFile.isDirectory() == false) { return false; }
+		
+		return true;
 	}
 	
 }

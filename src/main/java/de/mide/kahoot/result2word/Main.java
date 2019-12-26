@@ -4,10 +4,12 @@ import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_H_FOR_HELP;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_L_FOR_LOCALE;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.parseCommandLineArguments;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.printHelpOnCmdLineArgs;
 import static de.mide.kahoot.result2word.utils.DirectoryUtil.findAllXlsxFilesInDirectory;
 import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.writeWarningWhenLocaleIsNotSupported;
+import static de.mide.kahoot.result2word.utils.DirectoryUtil.checkIfDirectoryExists;
 
 import java.util.Locale;
 
@@ -36,13 +38,15 @@ public class Main {
 	
 	/** Result code (RC) for aborting program with {@code System::exit(int)} when exception during reading of input file or writing of docx files has occured. */ 
 	protected static final int RESULT_CODE_ON_EXCEPTION_DURING_PROCESSING = 2;
+	
+	/** Result code (RC) for aborting program with {@code System::exit(int)} when target folder specified with -outfolder does not exist. */
+	protected static final int RESULT_CODE_TARGET_FOLDER_NOT_EXISTING = 3;
 
     
     /**
      * Entry point of the program execution.<br><br>
      *
-     * @param args  Command line argument with path to Excel file to be processed,
-     *              for example "ExampleFiles/input_result1.xlsx".
+     * @param args  Command line arguments, to be analyzed by {@link CmdLineArgsParser#parseCommandLineArguments(String[])}.
      */
     public static void main(String[] args)  {
         
@@ -60,6 +64,7 @@ public class Main {
         
         
         abortBasedOnCommandLineArgsIfNeeded( cmdLine ); 
+        
         loadLanguage( cmdLine );
 
         
@@ -146,25 +151,35 @@ public class Main {
      */    
     protected static void abortBasedOnCommandLineArgsIfNeeded(CommandLine cmdLine) {
     	
-        if (!cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && !cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
-            
-            System.out.println("\nNeither Command Line Option -i nor -f was specified, aborting program.");
-            System.exit(1);
-        }
-        
-        
-        if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
-
-            System.out.println("\nBoth command line options -i and -f were specified, aborting program.");
-            System.exit(1);        	
-        }
-        
-        
         if ( cmdLine.hasOption(CMDLINE_OPTION_LETTER_H_FOR_HELP) ) {
             
             printHelpOnCmdLineArgs();
             System.exit(0);
-        }        
+        }    	
+    	
+        
+        if (!cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && !cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
+            
+            System.out.println("\nNeither Command Line Option -i nor -f was specified, aborting program.");
+            System.exit(RESULT_CODE_ON_INVALID_ARGS);
+        }
+                
+        if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
+
+            System.out.println("\nBoth command line options -i and -f were specified, aborting program.");
+            System.exit(RESULT_CODE_ON_INVALID_ARGS);        	
+        }
+        
+        if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)) {
+        	
+        	String targetFolder = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
+        	boolean targetFolderExists = checkIfDirectoryExists(targetFolder);
+        	
+        	if (targetFolderExists == false) {
+        		System.out.println("\nTarget folder \"" + targetFolder + "\" does not exist or is not a folder, aborting program.");
+        		System.exit(RESULT_CODE_TARGET_FOLDER_NOT_EXISTING);
+        	}
+        }
     }
     
     
