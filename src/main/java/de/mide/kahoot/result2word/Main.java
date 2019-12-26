@@ -42,7 +42,7 @@ public class Main {
 	/** Result code (RC) for aborting program with {@code System::exit(int)} when exception during reading of input file or writing of docx files has occured. */ 
 	protected static final int RESULT_CODE_ON_EXCEPTION_DURING_PROCESSING = 2;
 	
-	/** Result code (RC) for aborting program with {@code System::exit(int)} when target folder specified with -outfolder does not exist. */
+	/** Result code (RC) for aborting program with {@code System::exit(int)} when target folder specified with {@code -outfolder} does not exist. */
 	protected static final int RESULT_CODE_TARGET_FOLDER_NOT_EXISTING = 3;
 
 	

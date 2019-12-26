@@ -76,7 +76,7 @@ public class DirectoryUtil {
 	 * Adjust {@code filename} so that the file is written (under the same name)
 	 * into folder {@code outputFolder}. This method is needed for the case that
 	 * the user specifies the optional output folder, i.e. when the docx file 
-	 * is to be written into a different folder than with the xlsx file.
+	 * is to be written into a different folder than the xlsx file.
 	 * 
 	 * @param filename  Filename (might be relative or absolte path) which is to be 
 	 *                  "rerouted" into folder {@code outputFolder}.
