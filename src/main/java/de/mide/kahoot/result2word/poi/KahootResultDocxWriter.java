@@ -1,11 +1,12 @@
 package de.mide.kahoot.result2word.poi;
 
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -24,7 +25,6 @@ import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.model.TrueFalseQuestion;
 import de.mide.kahoot.result2word.utils.KahootException;
-import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
 
 
 

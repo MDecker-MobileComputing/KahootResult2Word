@@ -30,7 +30,11 @@ public class TranslatedTextsProvider {
 	
 	
 	/**
-	 * Method to query translated text with {@code key}.
+	 * Method to query translated text with {@code key}.<br><br>
+	 * 
+	 * You might want to use a static import for this method:<br>
+	 * <code>import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;</code>
+	 * 
 	 * 
 	 * @param key  Key of i18n file as used in properties file before the "=".
 	 *  
