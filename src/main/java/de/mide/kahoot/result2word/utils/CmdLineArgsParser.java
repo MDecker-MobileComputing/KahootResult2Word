@@ -100,6 +100,7 @@ public class CmdLineArgsParser {
 						                .longOpt("topline")
 						                .desc("Set text for topline (header) on each page of the generated docx file.")
 						                .hasArg(true)
+                                        .argName("text")
 						                .build();		
 		
 
