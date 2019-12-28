@@ -1,5 +1,7 @@
 package de.mide.kahoot.result2word.utils;
 
+import java.util.Optional;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -35,9 +37,19 @@ public class CmdLineArgsParser {
 	/** Single letter "h" for command line argument to call help on command line arguments with <code>-h</code>. */
 	public static final String CMDLINE_OPTION_LETTER_H_FOR_HELP = "h";
 	
+	/** Single letter "t" for command line argument to specify a topline (header) in the generated word document. */
+	public static final String CMDLINE_OPTION_LETTER_T_FOR_TOPLINE = "t";
+	
 	
 	/** Options object (configuration for parser), will be filled in {@code static} block when class is loaded. */
 	protected static Options sOptions = null; 
+	
+	/**
+	 * Optionally supplied text for a topline (header) on each page of the produced docx file; will
+	 * be set in method {@link #parseCommandLineArguments(String[])}. Cannot call it "header", because
+	 * "-h" is already used for "help", see {@link #CMDLINE_OPTION_LETTER_H_FOR_HELP}.
+	 */
+	private static Optional<String> _toplineTextOptional = Optional.empty();
 	
 	
 	static {
@@ -82,12 +94,21 @@ public class CmdLineArgsParser {
 						                .desc("Show this help")
 						                .hasArg(false)
 						                .build();		
+		
+		Option toplineOption = Option.builder(CMDLINE_OPTION_LETTER_T_FOR_TOPLINE)
+						                .required(false)
+						                .longOpt("topline")
+						                .desc("Set text for topline (header) on each page of the generated docx file.")
+						                .hasArg(true)
+						                .build();		
+		
 
 		sOptions.addOption( infileOption    );
 		sOptions.addOption( infolderOption  );
 		sOptions.addOption( outfolderOption );
 		sOptions.addOption( localeOption    );
 		sOptions.addOption( helpOption      );
+		sOptions.addOption( toplineOption   );
 	}
 	
 	
@@ -106,6 +127,13 @@ public class CmdLineArgsParser {
 		CommandLineParser parser = new DefaultParser();
 		
 		CommandLine parseResult = parser.parse(sOptions, argsToBeParsed); 
+		
+		
+		if (parseResult.hasOption(CMDLINE_OPTION_LETTER_T_FOR_TOPLINE)) {
+		
+			String toplineString = parseResult.getOptionValue(CMDLINE_OPTION_LETTER_T_FOR_TOPLINE);
+		    _toplineTextOptional = Optional.of(toplineString);
+		}		
 				
 		return parseResult;
 	}
@@ -121,6 +149,17 @@ public class CmdLineArgsParser {
 		HelpFormatter helpFormatter = new HelpFormatter();
 		
 		helpFormatter.printHelp("de.mide.kahoot.result2word.Main", sOptions);
+	}
+	
+	
+	/**
+	 * Getter for topline text (header) to be put onto each page of the docx file.  
+	 * 
+	 * @return  Optional object that might contain a topline set as command line argument.
+	 */
+	public static Optional<String> getToplineText() {
+		
+		return _toplineTextOptional;
 	}
 	
 }

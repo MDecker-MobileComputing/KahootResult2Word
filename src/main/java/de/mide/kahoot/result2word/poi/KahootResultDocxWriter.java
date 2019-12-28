@@ -13,6 +13,7 @@ import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -24,6 +25,7 @@ import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionList;
 import de.mide.kahoot.result2word.model.QuestionTypeEnum;
 import de.mide.kahoot.result2word.model.TrueFalseQuestion;
+import de.mide.kahoot.result2word.utils.CmdLineArgsParser;
 import de.mide.kahoot.result2word.utils.KahootException;
 
 
@@ -83,7 +85,7 @@ public class KahootResultDocxWriter {
 		 
 		loopOverAllQuestions(wordDocument);
 		
-		addFooter(wordDocument);		
+		addHeaderAndFooter(wordDocument);		
 		
 		setMetadata(wordDocument);
 		
@@ -125,31 +127,49 @@ public class KahootResultDocxWriter {
 	
 	
 	/**
-	 * Add footer on each page with "Page X of Y".
+	 * Add footer on each page with "Page X of Y" with field expression.
+	 * Header is only added when a topline was supplied via command line argument 
+	 * {@link CmdLineArgsParser#CMDLINE_OPTION_LETTER_T_FOR_TOPLINE}
+	 * <br><br>
 	 * 
 	 * Based on <a href="https://stackoverflow.com/a/41391801/1364368" target="_blank">this answer</a>.
 	 * 
 	 * @param wordDocument  Word document to which the footer is to be added.
 	 */
-	protected void addFooter(XWPFDocument wordDocument) {
+	protected void addHeaderAndFooter(XWPFDocument wordDocument) {
+			
+		XWPFHeaderFooterPolicy headerFooterPolicy = wordDocument.createHeaderFooterPolicy();
 		
+		Optional<String> toplineTextOptional = CmdLineArgsParser.getToplineText();
+		if (toplineTextOptional.isPresent()) {					
+			
+			XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
+			
+			XWPFParagraph headerParagraph = header.getParagraphArray(0);
+			if (headerParagraph == null) { headerParagraph = header.createParagraph(); }
+			headerParagraph.setAlignment(ParagraphAlignment.CENTER);
+			
+			XWPFRun headerRun = headerParagraph.createRun();
+			headerRun.setText( toplineTextOptional.get() );
+		}
+
+		
+		// Define the footer 
 		String pageFooter1 = getTextByKey("pageFooter1"); // "Page"
 		String pageFooter2 = getTextByKey("pageFooter2"); // "of"
 		
-		XWPFHeaderFooterPolicy headerFooterPolicy = wordDocument.createHeaderFooterPolicy();
-		
 		XWPFFooter footer = headerFooterPolicy.createFooter(XWPFHeaderFooterPolicy.DEFAULT);
 		
-		XWPFParagraph paragraph = footer.getParagraphArray(0);
-		if (paragraph == null) { paragraph = footer.createParagraph(); }
-		paragraph.setAlignment(ParagraphAlignment.CENTER);		
+		XWPFParagraph footerParagraph = footer.getParagraphArray(0);
+		if (footerParagraph == null) { footerParagraph = footer.createParagraph(); }
+		footerParagraph.setAlignment(ParagraphAlignment.CENTER);		
 		
-		XWPFRun run = paragraph.createRun();  
-		run.setText(pageFooter1 + " ");
-		paragraph.getCTP().addNewFldSimple().setInstr("PAGE \\* MERGEFORMAT");
-		run = paragraph.createRun();  
-		run.setText(" " + pageFooter2 + " ");
-		paragraph.getCTP().addNewFldSimple().setInstr("NUMPAGES \\* MERGEFORMAT");
+		XWPFRun footerRun = footerParagraph.createRun();  
+		footerRun.setText(pageFooter1 + " ");
+		footerParagraph.getCTP().addNewFldSimple().setInstr("PAGE \\* MERGEFORMAT");
+		footerRun = footerParagraph.createRun();  
+		footerRun.setText(" " + pageFooter2 + " ");
+		footerParagraph.getCTP().addNewFldSimple().setInstr("NUMPAGES \\* MERGEFORMAT");				
 	}
 	
 	
