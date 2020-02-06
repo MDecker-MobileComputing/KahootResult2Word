@@ -13,6 +13,16 @@ The Java program in this repository is in the form of a [Maven](http://maven.apa
 <br>
 
 ----
+## Usage ##
+
+Maven call to process one Excel file:
+````
+mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-infile path/to/file/result_downloaded_from_kahoot.xlsx"
+````
+
+<br>
+
+----
 ## License ##
 
 This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3), 
