@@ -23,7 +23,7 @@ The Java program in this repository is in the form of a [Maven](http://maven.apa
 
 ## Using the Fat Jar ##
 
-When you have built the *Fat Jar*, then you can process one input file with the following command:
+When you have built the *Fat Jar*, then you can process one input file like shown in the following example command:
 
 ````
 java -jar target/kahoot_result2word-1.0-SNAPSHOT-jar-with-dependencies.jar -f ExampleFiles/input_result_1.xlsx
