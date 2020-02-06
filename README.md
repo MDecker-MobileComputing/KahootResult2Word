@@ -61,6 +61,24 @@ Process all files in a folder:
 mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-infolder path/to/folder/"
 ````
 
+<br>
+
+----
+## Command Line Options ##
+
+````
+ -f,--infile <file>        Single Excel file to be processed, not compatible with -i
+                           
+ -h,--help                 Show this help
+ 
+ -i,--infolder <folder>    Folder from which input files (xlsx) are to be read; not compatible with -f
+                           
+ -l,--locale <locale>      Set language to be used for output files, e.g. "en" for English or "de" for German; default value is "en" for English                           
+                           
+ -o,--outfolder <folder>   Folder into which output files (docx) are to be written
+                           
+ -t,--topline <text>       Set text for topline (header) on each page of the generated docx file.
+````
 
 <br>
 
