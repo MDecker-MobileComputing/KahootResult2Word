@@ -1,7 +1,8 @@
 # Kahoot: Result Excel to Word #
 
-This repository contains a simple Java program that processes Excel files with the results from a
-[Kahoot](https://kahoot.com/) game and writes them into a Word file.
+This repository contains a simple Java program that processes an *Excel file (xlsx)* with the results from a
+[Kahoot](https://kahoot.com/) game and writes them into a *Word file (docx)*. Only the questions and answers will be 
+included in the generated file, which can be provided as "Sample Solution" to students/players afterwards.
 
 See [here](https://support.kahoot.com/hc/en-us/articles/115002308028-Reports-and-the-Reports-page) on how to download the Excel file with the results from a Kahoot game.
 For an example of such an Excel file you can look at the files in folder [ExampleFiles](ExampleFiles/),
