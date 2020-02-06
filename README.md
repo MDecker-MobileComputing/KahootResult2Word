@@ -1,6 +1,6 @@
 # Kahoot: Result Excel to Word #
 
-This repository contains a simple Java program that processes Excel files with the results from a 
+This repository contains a simple Java program that processes Excel files with the results from a
 [Kahoot](https://kahoot.com/) game and writes them into a Word file.
 
 See [here](https://support.kahoot.com/hc/en-us/articles/115002308028-Reports-and-the-Reports-page) on how to download the Excel file with the results from a Kahoot game.
@@ -13,19 +13,61 @@ The Java program in this repository is in the form of a [Maven](http://maven.apa
 <br>
 
 ----
-## Usage ##
+## Building the *Fat Jar* ##
 
-Maven call to process one Excel file:
+* Build the *Fat Jar* (which contains all dependencies) with the following execution of Maven: `mvn package`
+
+* After this command you should find a file named `kahoot_result2word-<version>-SNAPSHOT-jar-with-dependencies.jar` in folder `target/`.
+
+<br>
+
+## Using the Fat Jar ##
+
+When you have built the *Fat Jar*, then you can process one input file with the following command:
+
+````
+java -jar target/kahoot_result2word-1.0-SNAPSHOT-jar-with-dependencies.jar -f ExampleFiles/input_result_1.xlsx
+````
+
+<br>
+
+To process all files in a particular folder:
+````
+java -jar target/kahoot_result2word-1.0-SNAPSHOT-jar-with-dependencies.jar -i ExampleFiles
+````
+
+<br>
+
+Show all command line options:
+````
+java -jar target/kahoot_result2word-1.0-SNAPSHOT-jar-with-dependencies.jar -h
+````
+
+<br>
+
+## Execution via Maven ##
+
+It is also possible to execute the program via [Maven's Exec plugin](https://www.mojohaus.org/exec-maven-plugin/):
+
+Process one input file:
 ````
 mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-infile path/to/file/result_downloaded_from_kahoot.xlsx"
 ````
 
 <br>
 
+Process all files in a folder:
+````
+mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-infolder path/to/folder/"
+````
+
+
+<br>
+
 ----
 ## License ##
 
-This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3), 
+This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3),
 see also  the [LICENSE file](LICENSE.md).
 
 <br>
