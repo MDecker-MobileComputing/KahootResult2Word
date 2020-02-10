@@ -2,10 +2,12 @@
 
 This repository contains a simple Java program that processes an *Excel file (xlsx)* with the results from a
 [Kahoot](https://kahoot.com/) game and writes them into a *Word file (docx)*. Only the questions and answers will be 
-included in the generated file, which can be provided as "Sample Solution" to students/players afterwards.
+included in the generated file (but not the number of students which gave the right answer), so it can be 
+provided as "Sample Solution" to students/players afterwards.
 
 See [here](https://support.kahoot.com/hc/en-us/articles/115002308028-Reports-and-the-Reports-page) on how to download the Excel file with the results from a Kahoot game.
-For an example of such an Excel file you can look at the files in folder [ExampleFiles](ExampleFiles/),
+For an example of such an Excel file you can look at the files in folder [ExampleFiles](ExampleFiles/).
+To get such an result file it is sufficient to play the game with yourself using Kahoot's "Preview" feature.
 
 **The author of this application is *NOT* related in any way to [Kahoot](https://kahoot.com/company/).**
 
