@@ -7,7 +7,7 @@ provided as "Sample Solution" to students/players afterwards.
 
 See [here](https://support.kahoot.com/hc/en-us/articles/115002308028-Reports-and-the-Reports-page) on how to download the Excel file with the results from a Kahoot game.
 For an example of such an Excel file you can look at the files in folder [ExampleFiles](ExampleFiles/).
-To get such an result file it is sufficient to play the game with yourself using Kahoot's "Preview" feature.
+To get such an result file it is sufficient to play the game with yourself using Kahoot's [Preview feature](https://support.kahoot.com/hc/en-us/articles/115003173007-How-can-I-preview-play-a-kahoot-alone-).
 
 **The author of this application is *NOT* related in any way to [Kahoot](https://kahoot.com/company/).**
 
