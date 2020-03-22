@@ -76,7 +76,7 @@ public class KahootResultXlsxReader {
 
 	/** In cell C4 the percentage of players who gave the correct answer for this question is stated. */
 	protected static final int ROW_INDEX_PLAYERS_CORRECT_PERCENT = 3;
-	
+
 	/** In cell A1 the title of the whole game can be found on each sheet but the last one. */
 	protected static final int ROW_INDEX_TITLE = 0;
 
@@ -154,27 +154,27 @@ public class KahootResultXlsxReader {
 			questionList.addQuestion(question);
 		}
 
-		
+
 		String title = extractTitle( _excelWorkbook.getSheetAt(0) );
 		questionList.setTitle(title);
-		
+
 		return questionList;
 	}
-	
-	
+
+
 	/**
 	 * Extracts title of the Kahoot game which is be found in cell A1 on each sheet except the last one.
-	 * 
+	 *
 	 * @param sheet  Any sheet with a question.
-	 * 
+	 *
 	 * @return  Title of the game.
 	 */
 	protected String extractTitle(XSSFSheet sheet) {
-		
+
 		XSSFRow row = sheet.getRow(ROW_INDEX_TITLE);
 
 		XSSFCell cell = row.getCell(COL_INDEX_TITLE);
-		
+
 		return cell.getStringCellValue().trim();
 	}
 
@@ -394,8 +394,10 @@ public class KahootResultXlsxReader {
 
 		if (answerOptionsArray.length != 2) { return false; }
 
-		return answerOptionsArray[0].equalsIgnoreCase("false") &&
-			   answerOptionsArray[1].equalsIgnoreCase("true");
+		String wert1 = answerOptionsArray[0].toLowerCase();
+		String wert2 = answerOptionsArray[1].toLowerCase();
+
+		return ( wert1.equals("false") && wert2.equals("true") ) || ( wert1.equals("true") && wert2.equals("false") );
 	}
 
 
