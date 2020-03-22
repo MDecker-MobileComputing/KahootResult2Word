@@ -205,20 +205,29 @@ public class KahootResultXlsxReaderTests {
 		
 		assertTrue(isTrueFalseQuestion1);
 		
-
-		String[] answerOptionsArray2 = { "Beijing", "Paris", "London", "Rome" };
+		
+		String[] answerOptionsArray2 = { "true", "false" };
 		
 		// call method under test
 		boolean isTrueFalseQuestion2 = KahootResultXlsxReader.checkIsTrueFalseQuestion(answerOptionsArray2);
 		
-		assertFalse(isTrueFalseQuestion2);
+		assertTrue(isTrueFalseQuestion2);		
 		
-		
-		String[] answerOptionsArray3 = { "false", "true", "foobar" };
+
+		String[] answerOptionsArray3 = { "Beijing", "Paris", "London", "Rome" };
 		
 		// call method under test
 		boolean isTrueFalseQuestion3 = KahootResultXlsxReader.checkIsTrueFalseQuestion(answerOptionsArray3);
 		
-		assertFalse(isTrueFalseQuestion3);				
+		assertFalse(isTrueFalseQuestion3);
+		
+		
+		String[] answerOptionsArray4 = { "false", "true", "foobar" };
+		
+		// call method under test
+		boolean isTrueFalseQuestion4 = KahootResultXlsxReader.checkIsTrueFalseQuestion(answerOptionsArray4);
+		
+		assertFalse(isTrueFalseQuestion4);				
 	}
+	
 }
