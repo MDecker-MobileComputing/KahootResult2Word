@@ -267,6 +267,7 @@ public class KahootResultDocxWriter {
 		run3c.setText(".");
 		run3c.addBreak();
 		run3c.addBreak();
+		run3c.addBreak();
 	}
 	
 	
