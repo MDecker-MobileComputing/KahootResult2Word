@@ -251,20 +251,18 @@ public class KahootResultDocxWriter {
 		run3a.setFontSize(FONT_SIZE_NORMAL);
 		
 		if ( trueFalseQuestion.isStatementTrue() ) {
-			
-			
+						
 			run3b.setText( " " + getTextByKey("right") );	
 			
 		} else {
 			
-			run3b.setText( " " + getTextByKey("wrong") );
-			
+			run3b.setText( " " + getTextByKey("wrong") );			
 		}
 		run3b.setBold(true);
 		run3b.setItalic(true);
 		run3b.setFontSize(FONT_SIZE_NORMAL);
 			
-		run3c.setText(".");
+		run3c.setText(".");		
 		run3c.addBreak();
 		run3c.addBreak();
 		run3c.addBreak();
