@@ -1,8 +1,8 @@
 # Kahoot: Result Excel to Word #
 
 This repository contains a simple Java program that processes an *Excel file (xlsx)* with the results from a
-[Kahoot](https://kahoot.com/) game and writes them into a *Word file (docx)*. Only the questions and answers will be 
-included in the generated file (but not the number of students which gave the right answer), so it can be 
+[Kahoot](https://kahoot.com/) game and writes them into a *Word file (docx)*. Only the questions and answers will be
+included in the generated file (but not the number of students which gave the right answer), so it can be
 provided as "Sample Solution" to students/players afterwards.
 
 See [here](https://support.kahoot.com/hc/en-us/articles/115002308028-Reports-and-the-Reports-page) on how to download the Excel file with the results from a Kahoot game.
@@ -71,15 +71,17 @@ mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-inf
 
 ````
  -f,--infile <file>        Single Excel file to be processed, not compatible with -i
-                           
+
  -h,--help                 Show this help
- 
+
  -i,--infolder <folder>    Folder from which input files (xlsx) are to be read; not compatible with -f
-                           
- -l,--locale <locale>      Set language to be used for output files, e.g. "en" for English or "de" for German; default value is "en" for English                           
-                           
+
+ -l,--locale <locale>      Set language to be used for output files, e.g. "en" for English or "de" for German; default value is "en" for English
+
+ -n,--newpage              Start new page for each question
+
  -o,--outfolder <folder>   Folder into which output files (docx) are to be written
-                           
+
  -t,--topline <text>       Set text for topline (header) on each page of the generated docx file.
 ````
 

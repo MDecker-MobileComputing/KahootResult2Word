@@ -49,6 +49,9 @@ public class Main {
 	/** Output folder that can be optionally specified by user with cmdline option {@code --outfolder}. */
 	protected static Optional<String> sOutputFolderOptional = Optional.empty();
 
+	/** Result of parse command line options as returned by {@link CmdLineArgsParser#parseCommandLineArguments(String[])}. */
+	protected static CommandLine sCmdLine = null;
+
 
     /**
      * Entry point of the program execution.<br><br>
@@ -57,11 +60,9 @@ public class Main {
      */
     public static void main(String[] args)  {
 
-        CommandLine cmdLine = null;
-
         try {
 
-            cmdLine = parseCommandLineArguments( args );
+        	sCmdLine = parseCommandLineArguments( args );
         }
         catch (ParseException ex) {
 
@@ -70,13 +71,13 @@ public class Main {
         }
 
 
-        abortBasedOnCommandLineArgsIfNeeded( cmdLine );
+        abortBasedOnCommandLineArgsIfNeeded( sCmdLine );
 
-        loadLanguage( cmdLine );
+        loadLanguage( sCmdLine );
 
-        if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)) {
+        if (sCmdLine.hasOption(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER)) {
 
-        	String outputFolder   = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
+        	String outputFolder   = sCmdLine.getOptionValue(CMDLINE_OPTION_LETTER_O_FOR_OUTPUT_FOLDER);
         	sOutputFolderOptional = Optional.of(outputFolder);
         }
 
@@ -85,13 +86,13 @@ public class Main {
 
         try {
 
-            if (cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
+            if (sCmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
 
-            	proccessSingleExcelFile( cmdLine );
+            	proccessSingleExcelFile();
 
             } else {
 
-            	processAllExcelFilesInDirectory( cmdLine );
+            	processAllExcelFilesInDirectory();
             }
         }
         catch (KahootException ex) {
@@ -108,13 +109,11 @@ public class Main {
      * Method for processing when program was called to process single xlsx file
      * (which will be read from {@code CmdLineArgsParser}).
      *
-     * @param cmdLine  Object with result of parsing command line arguments.
-     *
      * @throws KahootException  Something went wrong during performing "xlsx2docx".
      */
-    protected static void proccessSingleExcelFile(CommandLine cmdLine) throws KahootException {
+    protected static void proccessSingleExcelFile() throws KahootException {
 
-    	String inputFileName = cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE);
+    	String inputFileName = sCmdLine.getOptionValue(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE);
 
     	xlsx2docx( inputFileName );
     }
@@ -124,14 +123,12 @@ public class Main {
      * Method for processing when program was called to process all xlsx files form a particular folder
      * (which will be read from {@code CmdLineArgsParser}).
      *
-     * @param cmdLine  Object with result of parsing command line arguments.
-     *
      * @throws KahootException  Something went wrong during performing "xlsx2docx" or when no xlsx files are found
      *                          in the specified folder.
      */
-    protected static void processAllExcelFilesInDirectory(CommandLine cmdLine) throws KahootException {
+    protected static void processAllExcelFilesInDirectory() throws KahootException {
 
-    	String inputFolder= cmdLine.getOptionValue(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER);
+    	String inputFolder= sCmdLine.getOptionValue(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER);
 
     	String[] xlsxFilesInFolderStringArray = findAllXlsxFilesInDirectory( inputFolder );
 
@@ -248,7 +245,7 @@ public class Main {
         	pathToOutputWord = changeOutputFolder(pathToOutputWord, sOutputFolderOptional.get());
         }
 
-        KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord);
+        KahootResultDocxWriter docxWriter = new KahootResultDocxWriter(questionList, pathToOutputWord, sCmdLine);
 
         docxWriter.writeResultFile();
 
