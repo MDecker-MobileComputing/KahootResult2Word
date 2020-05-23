@@ -364,22 +364,24 @@ public class KahootResultXlsxReader {
 
 
 		boolean correctOptionIsFirstColumn = false;
-		if (StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == true &&
-			StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == false
+		if ( StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == true  &&
+			 StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == false
 		   ) {
 
 			correctOptionIsFirstColumn = true;
 
 		} else
-			if (StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == false &&
-				StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == true
+			if ( StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == false &&
+				 StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == true
 			   ) {
 
 				correctOptionIsFirstColumn = false;
 
-		} else
+		} else {
+			
 			throw new KahootException("Could not determine for true/false question if correct option is first or second one.");
-
+		}
+			
 
 		// Now we have to find out if the option which is marked as correct stands for "right" or "wrong"
 
