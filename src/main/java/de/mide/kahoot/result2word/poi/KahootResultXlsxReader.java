@@ -191,9 +191,8 @@ public class KahootResultXlsxReader {
 	 */
 	protected AbstractQuestion extractQuestionFromSheet(XSSFSheet sheet) throws KahootException {
 
-		String questionText = getQuestionText(sheet);
-
-		String[] answerOptions = getAnswerOptions(sheet);
+		String   questionText  = getQuestionText(  sheet );
+		String[] answerOptions = getAnswerOptions( sheet );
 
 		float percentageCorrect = extractPercentageOfRightAnswers(sheet);
 
@@ -344,37 +343,73 @@ public class KahootResultXlsxReader {
 	 *
 	 * @param sheet  Sheet must contain a true/false question detected by method {@link #extractQuestionFromSheet(XSSFSheet)}.
 	 *
-	 * @return {@code true} iff the statement of the true/false question is true.
+	 * @return  {@code true} iff the statement of the true/false question is true.
 	 *
 	 * @throws KahootException  Could not determine if statement is marked as true or false.
 	 */
 	protected boolean extractAnswerForTrueFalseQuestion(XSSFSheet sheet) throws KahootException {
 
-		XSSFRow row = sheet.getRow(ROW_INDEX_ANSWER_CORRECT);
+		// First we find out if the correct answer is in the first or second answer option
 
-		XSSFCell cell1 = row.getCell(COL_INDEX_ANSWER_CORRECT_1);
-		XSSFCell cell2 = row.getCell(COL_INDEX_ANSWER_CORRECT_2);
+		XSSFRow answerOptionRow = sheet.getRow(ROW_INDEX_ANSWER_CORRECT);
 
-		String str1 = cell1.getStringCellValue();
-		String str2 = cell2.getStringCellValue();
+		XSSFCell answerOptionCell1 = answerOptionRow.getCell(COL_INDEX_ANSWER_CORRECT_1);
+		XSSFCell answerOptionCell2 = answerOptionRow.getCell(COL_INDEX_ANSWER_CORRECT_2);
 
-		char ch1 = str1.charAt(0);
-		char ch2 = str2.charAt(0);
+		String answerOptionStr1 = answerOptionCell1.getStringCellValue();
+		String answerOptionStr2 = answerOptionCell2.getStringCellValue();
 
-		boolean statementIsFalse = StringUtils.isSymbolForCorrectAnwerOption(ch1); // might raise exception
-		boolean statementIsRight = StringUtils.isSymbolForCorrectAnwerOption(ch2); // might raise exception
+		char answerOptionChar1 = answerOptionStr1.charAt(0);
+		char answerOptionChar2 = answerOptionStr2.charAt(0);
 
-		if (statementIsFalse && statementIsRight) {
 
-			throw new KahootException("Inconsistent result for true/false question: Both true and false seem to be marked as correct answer option.");
+		boolean correctOptionIsFirstColumn = false;
+		if (StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == true &&
+			StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == false
+		   ) {
+
+			correctOptionIsFirstColumn = true;
+
+		} else
+			if (StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar1) == false &&
+				StringUtils.isSymbolForCorrectAnwerOption(answerOptionChar2) == true
+			   ) {
+
+				correctOptionIsFirstColumn = false;
+
+		} else
+			throw new KahootException("Could not determine for true/false question if correct option is first or second one.");
+
+
+		// Now we have to find out if the option which is marked as correct stands for "right" or "wrong"
+
+		XSSFRow isAnswerCorrectRow = sheet.getRow(ROW_INDEX_ANSWER_OPTIONS);
+
+		XSSFCell isCorrectCell1 = isAnswerCorrectRow.getCell(COL_INDEX_ANSWER_OPTION_1);
+		XSSFCell isCorrectCell2 = isAnswerCorrectRow.getCell(COL_INDEX_ANSWER_OPTION_2);
+
+		String str1 = isCorrectCell1.getStringCellValue();
+		String str2 = isCorrectCell2.getStringCellValue();
+
+		if ( str1.equalsIgnoreCase("true") && correctOptionIsFirstColumn == true ) {
+
+			return true;
+		}
+		if ( str2.equalsIgnoreCase("true") && correctOptionIsFirstColumn == false ) {
+
+			return true;
+		}
+		if ( str1.equalsIgnoreCase("false") && correctOptionIsFirstColumn == true ) {
+
+			return false;
+		}
+		if ( str2.equalsIgnoreCase("false") && correctOptionIsFirstColumn == false ) {
+
+			return false;
 		}
 
-		if (!statementIsFalse && !statementIsRight) {
 
-			throw new KahootException("Inconsistent result for true/false question: Both true and false seem to be marked as incorrect answer option.");
-		}
-
-		return statementIsRight;
+		throw new KahootException("Could not determine if statement of true/false question is right or wrong.");
 	}
 
 

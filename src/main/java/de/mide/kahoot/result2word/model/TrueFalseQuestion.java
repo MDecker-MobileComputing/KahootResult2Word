@@ -1,5 +1,6 @@
 package de.mide.kahoot.result2word.model;
 
+
 /**
  * Concrete class for a true/false question, i.e. a question with a statement that is either
  * right or wrong.
