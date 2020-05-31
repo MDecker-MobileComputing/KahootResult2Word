@@ -1,5 +1,6 @@
 package de.mide.kahoot.result2word.model;
 
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
 
 /**
  * Abstract superclass for classes representing a single question from the result file.
@@ -91,7 +92,11 @@ public abstract class AbstractQuestion {
 	 */
 	public String getPercentageAnswersRightAsString() {
 
-		return String.format("%.1f%% of players gave the correct answer", _percentageAnswersCorrect);
+		String percentageFormatted = String.format("%.1f", _percentageAnswersCorrect);
+
+		String i18nStr = getTextByKey("percentageCorrectAnswer"); // $1 % of players gave the correct answer.
+
+		return i18nStr.replace("$1", percentageFormatted);
 	}
 
 

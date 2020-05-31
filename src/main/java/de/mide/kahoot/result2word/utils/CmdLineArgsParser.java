@@ -43,6 +43,9 @@ public class CmdLineArgsParser {
 	/** Single letter "n" for command line argument to specify that each question should start on a new page. */
 	public static final String CMDLINE_OPTION_LETTER_N_FOR_NEWPAGE = "n";
 
+	/** Single letter "p" for command line argument to specify that for each question the percentage of players with the correct answer is to be included in the result document. */
+	public static final String CMDLINE_OPTION_LETTER_P_FOR_PERCENTAGE = "p";
+
 
 	/** Options object (configuration for parser), will be filled in {@code static} block when class is loaded. */
 	protected static Options sOptions = null;
@@ -113,14 +116,21 @@ public class CmdLineArgsParser {
 						                .hasArg(false)
 						                .build();
 
+		Option percentageOption = Option.builder(CMDLINE_OPTION_LETTER_P_FOR_PERCENTAGE)
+							                .required(false)
+							                .longOpt("percentage")
+							                .desc("Include percentage of players which gave the right answer for each question")
+							                .hasArg(false)
+							                .build();
 
-		sOptions.addOption( infileOption    );
-		sOptions.addOption( infolderOption  );
-		sOptions.addOption( outfolderOption );
-		sOptions.addOption( localeOption    );
-		sOptions.addOption( helpOption      );
-		sOptions.addOption( toplineOption   );
-		sOptions.addOption( newpageOption   );
+		sOptions.addOption( infileOption     );
+		sOptions.addOption( infolderOption   );
+		sOptions.addOption( outfolderOption  );
+		sOptions.addOption( localeOption     );
+		sOptions.addOption( helpOption       );
+		sOptions.addOption( toplineOption    );
+		sOptions.addOption( newpageOption    );
+		sOptions.addOption( percentageOption );
 	}
 
 
@@ -161,6 +171,8 @@ public class CmdLineArgsParser {
 		HelpFormatter helpFormatter = new HelpFormatter();
 
 		helpFormatter.printHelp("de.mide.kahoot.result2word.Main", sOptions);
+
+	    System.out.println();
 	}
 
 

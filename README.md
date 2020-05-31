@@ -82,6 +82,8 @@ mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-inf
 
  -o,--outfolder <folder>   Folder into which output files (docx) are to be written
 
+ -p,--percentage           Include percentage of players which gave the right answer for each question
+
  -t,--topline <text>       Set text for topline (header) on each page of the generated docx file.
 ````
 

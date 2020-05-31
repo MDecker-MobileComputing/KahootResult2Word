@@ -167,7 +167,6 @@ public class Main {
             System.exit(0);
         }
 
-
         if (!cmdLine.hasOption(CMDLINE_OPTION_LETTER_I_FOR_INPUT_FOLDER) && !cmdLine.hasOption(CMDLINE_OPTION_LETTER_F_FOR_INPUT_FILE)) {
 
             System.out.println("\nNeither Command Line Option -i nor -f was specified, aborting program.\n");

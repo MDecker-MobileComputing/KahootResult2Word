@@ -1,7 +1,8 @@
 package de.mide.kahoot.result2word.poi;
 
-import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
 import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_N_FOR_NEWPAGE;
+import static de.mide.kahoot.result2word.utils.CmdLineArgsParser.CMDLINE_OPTION_LETTER_P_FOR_PERCENTAGE;
+import static de.mide.kahoot.result2word.utils.TranslatedTextsProvider.getTextByKey;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,6 +23,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import de.mide.kahoot.result2word.model.AbstractQuestion;
 import de.mide.kahoot.result2word.model.AnswerOption;
 import de.mide.kahoot.result2word.model.MultipleOrSingleChoiceQuestion;
 import de.mide.kahoot.result2word.model.QuestionList;
@@ -202,22 +204,32 @@ public class KahootResultDocxWriter {
 
 			QuestionTypeEnum questionType = _questionList.getTypeOfQuestion(index);
 
+			AbstractQuestion abstractQuestion = null;
+
 			switch(questionType) {
 
 				case TRUE_OR_FALSE:
 					trueFalseQuestion = _questionList.getTrueOrFalseQuestion(index);
 					writeTrueFalseQuestion(wordDocument, trueFalseQuestion);
+					abstractQuestion = trueFalseQuestion;
 					break;
 
 				case MULTIPLE_CHOICE:
 				case SINGLE_CHOICE:
 					multiSingleChoiceQuestion = _questionList.getMultiSingleChoiceQuestion(index);
 					writeMultiSingleChoiceQuestion(wordDocument, multiSingleChoiceQuestion);
+					abstractQuestion = multiSingleChoiceQuestion;
 					break;
 
 				default:
 					throw new KahootException("Unexcepted type of question: " + questionType);
 			}
+
+			if ( _cmdLine.hasOption(CMDLINE_OPTION_LETTER_P_FOR_PERCENTAGE) ) {
+
+				writePercentageAnswersCorrect(wordDocument, abstractQuestion);
+			}
+
 		}
 	}
 
@@ -412,6 +424,31 @@ public class KahootResultDocxWriter {
 
 		run.setText( _questionList.getTitle() );
 		run.addBreak();
+		run.addBreak();
+	}
+
+
+	/**
+	 * Write statement about the percentage of players who gave the right answer to the result
+	 * document.
+	 *
+	 * @param wordDocument  Word document to which the percentage of which players which gave
+	 *                      the correct answer is to be appended.
+	 *
+	 * @param question  Question for which the percentage value of players who gave the right
+	 *                  answer to the result document.
+	 */
+	protected void writePercentageAnswersCorrect(XWPFDocument wordDocument, AbstractQuestion question) {
+
+		XWPFParagraph paragraph = wordDocument.createParagraph();
+
+		XWPFRun run = paragraph.createRun();
+
+		run.setFontSize(FONT_SIZE_NORMAL);
+
+		String percentageString = question.getPercentageAnswersRightAsString();
+		run.setText(percentageString);
+
 		run.addBreak();
 	}
 

@@ -6,3 +6,4 @@
 # Start it with java -jar result2word-1.0-SNAPSHOT.jar
 
 mvn package
+
