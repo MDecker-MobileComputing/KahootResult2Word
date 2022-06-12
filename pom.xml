@@ -10,7 +10,7 @@
   <name>Kahoot Result Excel to Word</name>
   <url>https://github.com/MDecker-MobileComputing/KahootResult2Word</url>
   <inceptionYear>2019</inceptionYear>
-  <description>Application to read xlsx file with result of a Kahoot game and write essential information into docx file</description>
+  <description>Application to read xlsx file with results of a Kahoot game and write essential information into docx file</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
