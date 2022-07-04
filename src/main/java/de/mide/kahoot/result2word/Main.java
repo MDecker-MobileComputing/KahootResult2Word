@@ -62,14 +62,13 @@ public class Main {
 
         try {
 
-        	sCmdLine = parseCommandLineArguments( args );
+            sCmdLine = parseCommandLineArguments( args );
         }
         catch (ParseException ex) {
 
             printHelpOnCmdLineArgs();
             System.exit( RESULT_CODE_ON_INVALID_ARGS );
         }
-
 
         abortBasedOnCommandLineArgsIfNeeded( sCmdLine );
 
