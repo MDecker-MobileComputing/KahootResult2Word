@@ -226,7 +226,6 @@ public class Main {
 
         QuestionList questionList = null;
 
-
         KahootResultXlsxReader xlsxReader = new KahootResultXlsxReader(pathToInputExcel);
 
         // read input file (Excel file with results downloaded from Kahoot)
