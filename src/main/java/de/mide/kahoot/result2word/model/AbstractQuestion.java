@@ -159,9 +159,9 @@ public abstract class AbstractQuestion {
 
 		    case SINGLE_CHOICE: return "Single-choice question";
 
-			case TRUE_OR_FALSE: return "true/false question";
+		    case TRUE_OR_FALSE: return "true/false question";
 
-			default: return "INTERNAL ERROR: UNKNOWN TYPE OF QUESTION" + _questionType;
+		    default: return "INTERNAL ERROR: Unknown question type \"" + _questionType + "\".";
 		}
 	}
 
