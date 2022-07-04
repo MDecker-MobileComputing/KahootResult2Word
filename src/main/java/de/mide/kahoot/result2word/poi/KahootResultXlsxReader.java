@@ -288,7 +288,6 @@ public class KahootResultXlsxReader {
 
 		resultArray = new boolean[numberOfAnswerOptions];
 
-
 		resultArray[0] = StringUtils.isSymbolForCorrectAnwerOption( cell1.getStringCellValue().charAt(0) );
 		resultArray[1] = StringUtils.isSymbolForCorrectAnwerOption( cell2.getStringCellValue().charAt(0) );
 
@@ -301,7 +300,6 @@ public class KahootResultXlsxReader {
 
 			resultArray[3] = StringUtils.isSymbolForCorrectAnwerOption( cell4.getStringCellValue().charAt(0) );
 		}
-
 
 		return resultArray;
 	}
