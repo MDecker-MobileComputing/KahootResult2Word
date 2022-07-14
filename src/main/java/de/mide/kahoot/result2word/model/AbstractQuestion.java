@@ -14,7 +14,7 @@ public abstract class AbstractQuestion {
 	/** Question type, e.g {@link QuestionTypeEnum#SINGLE_CHOICE}. */
 	protected QuestionTypeEnum _questionType;
 
-	/** String with the question or statement (for true/false questions). */
+	/** String with the question or (for true/false questions) statement. */
 	protected String _questionText = "";
 
 	/** Percentage of players with correct answer for this question. */
