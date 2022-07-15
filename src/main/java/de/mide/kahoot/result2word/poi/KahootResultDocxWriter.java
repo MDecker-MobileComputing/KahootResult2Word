@@ -256,7 +256,7 @@ public class KahootResultDocxWriter {
 		XWPFParagraph paragraph2 = wordDocument.createParagraph();
 		XWPFRun       run2       = paragraph2.createRun();
 
-		run2.setText("   \"" + trueFalseQuestion.getQuestionText() + "\"");
+		run2.setText("   "  + trueFalseQuestion.getQuestionText());
 		run2.setItalic(true);
 		run2.setFontSize(FONT_SIZE_NORMAL);
 		run2.addBreak();
