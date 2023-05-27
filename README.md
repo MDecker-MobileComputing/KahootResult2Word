@@ -16,6 +16,7 @@ The Java program in this repository is in the form of a [Maven](http://maven.apa
 <br>
 
 ----
+
 ## Building the *Fat Jar* ##
 
 * Build the *Fat Jar* (which contains all dependencies) with the following execution of Maven: `mvn package`
@@ -67,6 +68,7 @@ mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-inf
 <br>
 
 ----
+
 ## Command Line Options ##
 
 ````
@@ -90,6 +92,7 @@ mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-inf
 <br>
 
 ----
+
 ## License ##
 
 This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3),
