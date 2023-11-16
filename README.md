@@ -1,5 +1,7 @@
 # Kahoot: Result Excel to Word #
 
+<br>
+
 This repository contains a simple Java program that processes an *Excel file (xlsx)* with the results from a
 [Kahoot](https://kahoot.com/) game and writes them into a *Word file (docx)*. Only the questions and answers will be
 included in the generated file (but not the number of students which gave the right answer), so it can be
@@ -18,6 +20,8 @@ The Java program in this repository is in the form of a [Maven](http://maven.apa
 ----
 
 ## Building the *Fat Jar* ##
+
+<br>
 
 * Build the *Fat Jar* (which contains all dependencies) with the following execution of Maven: `mvn package`
 
@@ -94,6 +98,8 @@ mvn exec:java -Dexec.mainClass=de.mide.kahoot.result2word.Main -Dexec.args="-inf
 ----
 
 ## License ##
+
+<br>
 
 This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE version 3 (GPL v3),
 see also  the [LICENSE file](LICENSE.md).
