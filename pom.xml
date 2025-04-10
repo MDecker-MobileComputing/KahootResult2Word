@@ -30,7 +30,7 @@
     <dependency>
        <groupId>org.apache.poi</groupId>
        <artifactId>poi-ooxml</artifactId>
-       <version>4.1.1</version><!-- For latest version see https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+       <version>5.4.0</version><!-- For latest version see https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
     </dependency>
     
     <dependency>
